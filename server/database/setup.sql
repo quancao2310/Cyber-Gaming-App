@@ -1,3 +1,12 @@
+-- Drop database if it already exists
+DROP DATABASE IF EXISTS cyber_gaming;
+
+-- Create and use the database
+CREATE DATABASE cyber_gaming
+  DEFAULT CHARACTER SET utf8mb4
+  DEFAULT COLLATE utf8mb4_unicode_ci;
+USE cyber_gaming;
+
 SET foreign_key_checks = 0;
 
 CREATE TABLE `customer` (
@@ -195,6 +204,175 @@ CREATE TABLE `invoice_discount` (
                                     FOREIGN KEY (`discount_id`) REFERENCES `discount_event` (`id`)
 );
 
+-- Disable foreign key checks for the insert operation
+SET foreign_key_checks = 0;
 
+-- Insert values into the `customer` table
+INSERT INTO `customer` (`firstname`, `lastname`, `email`, `phone_number`, `year_of_birth`, `sex`, `customer_id_introduce`)
+VALUES
+('John', 'Doe', 'john.doe@example.com', '1234567890', 1990, 'Male', NULL),
+('Jane', 'Doe', 'jane.doe@example.com', '9876543210', 1995, 'Female', NULL),
+('Alice', 'Johnson', 'alice.johnson@example.com', '555-1234', 1992, 'Female', NULL),
+('Bob', 'Smith', 'bob.smith@example.com', '555-5678', 1985, 'Male', NULL),
+('Charlie', 'Williams', 'charlie.williams@example.com', '555-9876', 1998, 'Male', NULL);
+
+-- Insert values into the `account` table
+INSERT INTO `account` (`account_name`, `password`, `account_balance`, `customer_id`)
+VALUES
+('john_account', 'password123', 1000, 1),
+('jane_account', 'securepass', 1500, 2),
+('alice_account', 'alicepass', 800, 3),
+('bob_account', 'bobpass', 1200, 4),
+('charlie_account', 'charliepass', 500, 5);
+
+-- Insert values into the `staff` table
+INSERT INTO `staff` (`firstname`, `lastname`, `CCCD`, `age`, `sex`, `bank_name`, `bank_credit_num`)
+VALUES
+('Cương', 'Đỗ', 'CCCD123456', 19, 'Male', 'BankA', '1234-5678-9101'),
+('Danh', 'Mai', 'CCCD789012', 20, 'Male', 'BankB', '2345-6789-1011'),
+('Long', 'Võ', 'CCCD555555', 19, 'Male', 'BankC', '5555-5555-5555'),
+('Phúc', 'Huỳnh', 'CCCD666666', 20, 'Male', 'BankD', '6666-6666-6666'),
+('Quân', 'Cao', 'CCCD777777', 20, 'Male', 'BankE', '7777-7777-7777');
+
+-- Insert values into the `staff_email` table
+INSERT INTO `staff_email` (`staff_id`, `email`)
+VALUES
+(1, 'cuong.do@example.com'),
+(2, 'danh.mai@example.com'),
+(3, 'baolong.vo@example.com'),
+(4, 'phuc.huynh@example.com'),
+(5, 'quan.cao@example.com');
+
+-- Insert values into the `staff_phone_number` table
+INSERT INTO `staff_phone_number` (`staff_id`, `phone_number`)
+VALUES
+(1, '0912345678'),
+(2, '0987654321'),
+(3, '0911223344'),
+(4, '0912345678'),
+(5, '0988765432');
+
+-- Insert values into the `accountant_staff` table
+INSERT INTO `accountant_staff` (`staff_id`, `degree`)
+VALUES
+(1, 'AccountantDegree1'),
+(2, 'AccountantDegree2'),
+(3, 'AccountantDegree3'),
+(4, 'AccountantDegree4'),
+(5, 'AccountantDegree5');
+
+-- Insert values into the `maintenance_staff` table
+INSERT INTO `maintenance_staff` (`staff_id`, `degree`)
+VALUES
+(1, 'MaintenanceDegree1'),
+(2, 'MaintenanceDegree2'),
+(3, 'MaintenanceDegree3'),
+(4, 'MaintenanceDegree4'),
+(5, 'MaintenanceDegree5');
+
+-- Insert values into the `transaction` table
+INSERT INTO `transaction` (`amount`, `account_id`, `content`, `status`, `invoice_id`)
+VALUES
+(50, 1, 'Transaction 1 Content', 'Completed', 1),
+(30, 2, 'Transaction 2 Content', 'Pending', 2),
+(40, 3, 'Transaction 3 Content', 'Completed', 3),
+(25, 4, 'Transaction 4 Content', 'Pending', 4);
+
+-- Insert values into the `invoice` table
+INSERT INTO `invoice` (`discount_event_id`, `payment_method`, `staff_id`, `customer_id`)
+VALUES
+(1, 'Credit_Card', 1, 1),
+(2, 'Bank_Transfer', 2, 2),
+(3, 'Cash', 3, 3),
+(4, 'Credit_Card', 4, 4);
+
+-- Insert values into the `cart_product` table
+INSERT INTO `cart_product` (`invoice_id`, `product_id`, `price`, `quantity`)
+VALUES
+(1, 1, 20.5, 2),
+(2, 2, 30.0, 1),
+(3, 3, 25.0, 3),
+(4, 4, 35.0, 1);
+
+-- Insert values into the `product` table
+INSERT INTO `product` (`description`, `name`, `category`, `price`, `item_sold`)
+VALUES
+('Product 1 Description', 'Product 1', 'Category A', 20.5, 50),
+('Product 2 Description', 'Product 2', 'Category B', 30.0, 30),
+('Product 3 Description', 'Product 3', 'Category A', 25.0, 40),
+('Product 4 Description', 'Product 4', 'Category B', 35.0, 20);
+
+-- Insert values into the `product_image` table
+INSERT INTO `product_image` (`product_id`, `url`, `title`)
+VALUES
+(1, 'image_url_1', 'Image 1'),
+(2, 'image_url_2', 'Image 2'),
+(3, 'image_url_3', 'Image 3'),
+(4, 'image_url_4', 'Image 4');
+
+-- Insert values into the `room` table
+INSERT INTO `room` (`room_order`, `room_type`, `description`, `unit_price`, `available_slot_quantity`, `room_status`, `rent_price`)
+VALUES
+(1, 'Single', 'Single Room Description', 50.0, 5, 'Available', 100.0),
+(2, 'Double', 'Double Room Description', 80.0, 3, 'Booked', 150.0),
+(3, 'Suite', 'Suite Room Description', 100.0, 2, 'Available', 200.0),
+(4, 'Deluxe', 'Deluxe Room Description', 120.0, 3, 'Available', 250.0);
+
+-- Insert values into the `room_invoice` table
+INSERT INTO `room_invoice` (`room_order`, `room_type`, `invoice_id`, `status`, `start_time`, `end_time`)
+VALUES
+(1, 'Single', 1, 'Booked', '2023-01-01', '2023-01-03'),
+(2, 'Double', 2, 'Check-in', '2023-02-01', '2023-02-05'),
+(3, 'Suite', 3, 'Available', '2023-03-01', '2023-03-03'),
+(4, 'Deluxe', 4, 'Available', '2023-04-01', '2023-04-05');
+
+-- Insert values into the `slot` table
+INSERT INTO `slot` (`room_order`, `room_type`, `slot_order`)
+VALUES
+(1, 'Single', 1),
+(2, 'Double', 1),
+(3, 'Suite', 1),
+(4, 'Deluxe', 1);
+
+-- Insert values into the `slot_invoice` table
+INSERT INTO `slot_invoice` (`room_order`, `room_type`, `slot_order`, `invoice_id`, `status`, `start_time`, `end_time`)
+VALUES
+(1, 'Single', 1, 1, 'Reserved', '2023-01-01', '2023-01-03'),
+(2, 'Double', 1, 2, 'Occupied', '2023-02-01', '2023-02-05'),
+(3, 'Suite', 1, 3, 'Booked', '2023-03-01', '2023-03-03'),
+(4, 'Deluxe', 1, 4, 'Booked', '2023-04-01', '2023-04-05');
+
+-- Insert values into the `device` table
+INSERT INTO `device` (`room_order`, `room_type`, `slot_order`, `device_order`, `name`, `type`, `start_date`, `last_time_maintain`, `expire_time`)
+VALUES
+(1, 'Single', 1, 1, 'Device 1', 'Type A', '2023-01-01', '2023-01-02', '2023-01-10'),
+(2, 'Double', 1, 1, 'Device 2', 'Type B', '2023-01-01', '2023-02-02', '2023-02-10'),
+(3, 'Suite', 1, 1, 'Device 3', 'Type C', '2023-03-01', '2023-03-02', '2023-03-10'),
+(4, 'Deluxe', 1, 1, 'Device 4', 'Type D', '2023-04-01', '2023-04-02', '2023-04-10');
+
+-- Insert values into the `maintain_staff_device` table
+INSERT INTO `maintain_staff_device` (`staff_id`, `room_order`, `room_type`, `slot_order`, `device_order`, `time`)
+VALUES
+(1, 1, 'Single', 1, 1, '2023-01-02'),
+(2, 2, 'Double', 1, 1, '2023-02-02'),
+(3, 3, 'Suite', 1, 1, '2023-03-02'),
+(4, 4, 'Deluxe', 1, 1, '2023-04-02');
+
+-- Insert values into the `discount_event` table
+INSERT INTO `discount_event` (`id`, `name`, `start_date`, `end_date`, `discount_percent`)
+VALUES
+(1, 'Discount Event 1', '2023-01-01', '2023-01-15', 10),
+(2, 'Discount Event 2', '2023-02-01', '2023-02-28', 15),
+(3, 'Discount Event 3', '2023-03-01', '2023-03-15', 20),
+(4, 'Discount Event 4', '2023-04-01', '2023-04-30', 15);
+
+-- Insert values into the `invoice_discount` table
+INSERT INTO `invoice_discount` (`invoice_id`, `discount_id`)
+VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4);
 
 SET foreign_key_checks = 1;
+

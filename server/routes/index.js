@@ -1,5 +1,5 @@
 import express from 'express';
-import customerRoutes from './api/customer';
+import customerRoutes from './api/customer.js';
 
 const routes = express.Router();
 

@@ -1,4 +1,4 @@
-import Customer from "../models/customer.model";
+import Customer from "../models/customer.model.js";
 class CustomerController {
   index(req, res) {
     res.json({

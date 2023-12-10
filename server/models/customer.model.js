@@ -1,4 +1,4 @@
-import connection from "../config/index"
+import connection from "../config/index.js"
 
 // constructor
 const Customer = function (customer) {

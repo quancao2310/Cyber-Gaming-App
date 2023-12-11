@@ -1,30 +1,19 @@
-import { useState } from "react";
-import { Routes, Route } from "react-router-dom";
-import AdminHome from "./admin/Home";
-import StaffHome from "./staff/Home";
-import CustomerHome from "./customer/Home"; 
-import { CssBaseline, ThemeProvider } from "@mui/material";
-import { ColorModeContext, useMode } from "../theme";
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 function Home() {
-  const [theme, colorMode] = useMode();
-  const [isSidebar, setIsSidebar] = useState(true);
-
   return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <div className="app">
-          <main className="content">
-            <Routes>
-                <Route index="/admin" element={<AdminHome />} />
-                <Route index="/staff" element={<StaffHome />} />
-                <Route index="/customer" element={<CustomerHome />} />
-            </Routes>
-          </main>
+    <div className="container-fluid d-flex justify-content-center align-items-center vh-100">
+      <div className="text-center bg-secondary p-3">
+        <h1 className="mb-4">Cyber Gaming App</h1>
+        <div className="btn-group-vertical">
+          <h3 className="mb-3">You are...</h3>
+          <Link to="/admin" className="btn btn-primary mb-3">Admin</Link>
+          <Link to="/staff" className="btn btn-success mb-3">Staff</Link>
+          <Link to="/customer" className="btn btn-info">Customer</Link>
         </div>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
+      </div>
+    </div>
   );
 }
 

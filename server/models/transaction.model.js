@@ -10,47 +10,43 @@ const Transaction = function (transaction) {
   this.invoice_id = transaction.invoice_id;
 };
 
-Transaction.create = (newTransaction, result) => {
-  connection.query("INSERT INTO transaction SET ?", newTransaction, (err, res) => {
-    if (err) {
+Transaction.create = (newTransaction) => {
+  return connection.query("INSERT INTO transaction SET ?", newTransaction)
+    .then((res) => {
+      console.log("created transaction: ", { id: res.insertId, ...newTransaction });
+      return { id: res.insertId, ...newTransaction };
+    })
+    .catch((err) => {
       console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    console.log("created transaction: ", { id: res.insertId, ...newTransaction });
-    result(null, { id: res.insertId, ...newTransaction });
-  });
+      throw err;
+    });
 };
 
-Transaction.find = (transactionId, result) => {
-  connection.query(`SELECT * FROM transaction WHERE id = ${transactionId}`, (err, res) => {
-    if (err) {
+Transaction.find = (transactionId) => {
+  return connection.query(`SELECT * FROM transaction WHERE id = ${transactionId}`)
+    .then((res) => {
+      if (res.length) {
+        console.log("found transaction: ", res[0]);
+        return res[0];
+      }
+      throw { kind: "not_found" };
+    })
+    .catch((err) => {
       console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    if (res.length) {
-      console.log("found transaction: ", res[0]);
-      result(null, res[0]);
-      return;
-    }
-    result({ kind: "not_found" }, null);
-  });
+      throw err;
+    });
 };
 
-Transaction.getAll = (result) => {
-  connection.query("SELECT * FROM transaction", (err, res) => {
-    if (err) {
+Transaction.getAll = () => {
+  return connection.query("SELECT * FROM transaction")
+    .then((res) => {
+      console.log("transactions: ", res[0]);
+      return res[0];
+    })
+    .catch((err) => {
       console.log("error: ", err);
-      result(null, err);
-      return;
-    }
-
-    console.log("transactions: ", res);
-    result(null, res);
-  });
+      throw err;
+    });
 };
 
 export default Transaction;

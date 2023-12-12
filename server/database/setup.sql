@@ -79,7 +79,7 @@ CREATE TABLE `transaction` (
                                `invoice_id` INT,
                                FOREIGN KEY (`account_id`) REFERENCES `account` (`id`),
                                FOREIGN KEY (`invoice_id`) REFERENCES `invoice` (`id`),
-                               CONSTRAINT chk_recharge_invoice_id CHECK (status = 'Recharge' AND invoice_id IS NULL)
+							   CONSTRAINT chk_payment_invoice_id CHECK (status = 'Payment' OR (status = 'Recharge' AND invoice_id IS NULL))
 );
 
 CREATE TABLE `invoice` (
@@ -100,7 +100,7 @@ CREATE TABLE `invoice_product` (
                                 `quantity` INT DEFAULT 0,
                                 PRIMARY KEY (`invoice_id`, `product_id`),
                                 FOREIGN KEY (`invoice_id`) REFERENCES `invoice` (`id`),
-                                FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE SET NULL
+                                FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)
 );
 
 CREATE TABLE `product` (
@@ -116,7 +116,7 @@ CREATE TABLE `product_image` (
                                  `product_id` INT,
                                  `url` VARCHAR(255),
                                  `title` VARCHAR(60),
-                                 FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)  ON DELETE CASCADE
+                                 FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)
 );
 
 CREATE TABLE `room` (
@@ -190,7 +190,7 @@ CREATE TABLE `maintain_staff_device` (
 );
 
 CREATE TABLE `discount_event` (
-                                  `id` INT PRIMARY KEY,
+                                  `id` INT PRIMARY KEY AUTO_INCREMENT,
                                   `name` VARCHAR(60),
                                   `start_date` DATE,
                                   `end_date` DATE,
@@ -204,6 +204,8 @@ CREATE TABLE `invoice_discount` (
                                     FOREIGN KEY (`invoice_id`) REFERENCES `invoice` (`id`),
                                     FOREIGN KEY (`discount_id`) REFERENCES `discount_event` (`id`)
 );
+
+SET foreign_key_checks = 1;
 
 -- Disable foreign key checks for the insert operation
 SET foreign_key_checks = 0;
@@ -268,8 +270,8 @@ INSERT INTO `transaction` (`amount`, `account_id`, `content`, `status`, `invoice
 VALUES
 (50, 1, 'Transaction 1 Content', 'Recharge', NULL),
 (30, 1, 'Transaction 2 Content', 'Payment', 1),
-(40, 2, 'Transaction 3 Content', 'Recharge', 3),
-(25, 2, 'Transaction 4 Content', 'Payment', NULL);
+(40, 2, 'Transaction 3 Content', 'Recharge', NULL),
+(25, 2, 'Transaction 4 Content', 'Payment', 3);
 
 -- Insert values into the `invoice` table
 INSERT INTO `invoice` (`discount_event_id`, `payment_method`, `staff_id`, `customer_id`)
@@ -352,12 +354,12 @@ VALUES
 (2, 4, 'Deluxe', 1, 1, '2023-04-02');
 
 -- Insert values into the `discount_event` table
-INSERT INTO `discount_event` (`id`, `name`, `start_date`, `end_date`, `discount_percent`)
+INSERT INTO `discount_event` (`name`, `start_date`, `end_date`, `discount_percent`)
 VALUES
-(1, 'Discount Event 1', '2023-01-01', '2023-01-15', 10),
-(2, 'Discount Event 2', '2023-02-01', '2023-02-28', 15),
-(3, 'Discount Event 3', '2023-03-01', '2023-03-15', 20),
-(4, 'Discount Event 4', '2023-04-01', '2023-04-30', 15);
+('Discount Event 1', '2023-01-01', '2023-01-15', 10),
+('Discount Event 2', '2023-02-01', '2023-02-28', 15),
+('Discount Event 3', '2023-03-01', '2023-03-15', 20),
+('Discount Event 4', '2023-04-01', '2023-04-30', 15);
 
 -- Insert values into the `invoice_discount` table
 INSERT INTO `invoice_discount` (`invoice_id`, `discount_id`)

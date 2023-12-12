@@ -8,87 +8,81 @@ const DiscountEvent = function (event) {
   this.discount_percent = event.discount_percent;
 };
 
-DiscountEvent.create = (newEvent, result) => {
-  connection.query("INSERT INTO discount_event SET ?", newEvent, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
+DiscountEvent.create = (newEvent) => {
+  const { name, start_date, end_date, discount_percent } = newEvent;
 
-    console.log("created discount event: ", { id: res.insertId, ...newEvent });
-    result(null, { id: res.insertId, ...newEvent });
-  });
+  return connection.query(
+    "INSERT INTO discount_event SET name = ?, start_date = ?, end_date = ?, discount_percent = ?",
+    [name, start_date, end_date, discount_percent]
+  )
+    .then((res) => {
+      console.log("created discount event: ", { id: res.insertId, ...newEvent });
+      return { id: res.insertId, ...newEvent };
+    })
+    .catch((err) => {
+      console.log("error creating discount event: ", err);
+      throw err;
+    });
 };
 
-DiscountEvent.find = (eventId, result) => {
-  connection.query(`SELECT * FROM discount_event WHERE id = ${eventId}`, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    if (res.length) {
-      console.log("found discount event: ", res[0]);
-      result(null, res[0]);
-      return;
-    }
-    result({ kind: "not_found" }, null);
-  });
-};
-
-DiscountEvent.getAll = (result) => {
-  connection.query("SELECT * FROM discount_event", (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(null, err);
-      return;
-    }
-
-    console.log("discount events: ", res);
-    result(null, res);
-  });
-};
-
-DiscountEvent.update = (eventId, updatedEvent, result) => {
-  connection.query(
+DiscountEvent.update = (eventId, updatedEvent) => {
+  return connection.query(
     "UPDATE discount_event SET name = ?, start_date = ?, end_date = ?, discount_percent = ? WHERE id = ?",
-    [updatedEvent.name, updatedEvent.start_date, updatedEvent.end_date, updatedEvent.discount_percent, eventId],
-    (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(err, null);
-        return;
-      }
-
+    [updatedEvent.name, updatedEvent.start_date, updatedEvent.end_date, updatedEvent.discount_percent, eventId]
+  )
+    .then((res) => {
       if (res.affectedRows === 0) {
-        result({ kind: "not_found" }, null);
-        return;
+        throw { kind: "not_found" };
       }
-
       console.log("updated discount event: ", { id: eventId, ...updatedEvent });
-      result(null, { id: eventId, ...updatedEvent });
-    }
-  );
+      return { id: eventId, ...updatedEvent };
+    })
+    .catch((err) => {
+      console.log("error updating discount event: ", err);
+      throw err;
+    });
 };
 
-DiscountEvent.delete = (eventId, result) => {
-  connection.query("DELETE FROM discount_event WHERE id = ?", eventId, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
+DiscountEvent.delete = (eventId) => {
+  return connection.query("DELETE FROM discount_event WHERE id = ?", [eventId])
+    .then((res) => {
+      if (res.affectedRows === 0) {
+        throw { kind: "not_found" };
+      }
+      console.log("deleted discount event with id: ", eventId);
+      return res;
+    })
+    .catch((err) => {
+      console.log("error deleting discount event: ", err);
+      throw err;
+    });
+};
 
-    if (res.affectedRows === 0) {
-      result({ kind: "not_found" }, null);
-      return;
-    }
+DiscountEvent.find = (eventId) => {
+  return connection.query("SELECT * FROM discount_event WHERE id = ?", [eventId])
+    .then((events) => {
+      if (events[0].length === 0) {
+        throw { kind: "not_found" };
+      }
+      console.log("found discount event: ", events[0][0]);
+      return events[0][0];
+    })
+    .catch((err) => {
+      console.log('error finding discount event: ', err);
+      throw err;
+    });
+};
 
-    console.log("deleted discount event with id: ", eventId);
-    result(null, res);
-  });
+DiscountEvent.getAll = () => {
+  return connection.query('SELECT * FROM discount_event')
+    .then((events) => {
+      console.log("discount events: ", events[0]);
+      return events[0];
+    })
+    .catch((err) => {
+      console.log('error getting discount events: ', err);
+      throw err;
+    });
 };
 
 export default DiscountEvent;

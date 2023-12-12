@@ -75,7 +75,7 @@ CREATE TABLE `transaction` (
                                `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                                `account_id` INT,
                                `content` VARCHAR(60),
-                               `status` ENUM ('Pending', 'Completed'),
+                               `status` ENUM ('Recharge', 'Payment'),
                                `invoice_id` INT,
                                FOREIGN KEY (`account_id`) REFERENCES `account` (`id`),
                                FOREIGN KEY (`invoice_id`) REFERENCES `invoice` (`id`)
@@ -84,7 +84,7 @@ CREATE TABLE `transaction` (
 CREATE TABLE `invoice` (
                            `id` INT PRIMARY KEY AUTO_INCREMENT,
                            `discount_event_id` INT,
-                           `payment_method` ENUM ('Credit_Card', 'Bank_Transfer', 'Cash'),
+                           `payment_method` ENUM ('Account_Wallet', 'Credit_Card', 'Bank_Transfer', 'Cash'),
                            `staff_id` INT,
                            `customer_id` INT,
                            `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -92,12 +92,12 @@ CREATE TABLE `invoice` (
                            FOREIGN KEY (`customer_id`) REFERENCES `customer` (`id`)
 );
 
-CREATE TABLE `cart_product` (
-                                `id` INT PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE `invoice_product` (
                                 `invoice_id` INT,
                                 `product_id` INT,
                                 `price` DOUBLE(10,2),
                                 `quantity` INT DEFAULT 0,
+                                PRIMARY KEY (`invoice_id`, `product_id`),
                                 FOREIGN KEY (`invoice_id`) REFERENCES `invoice` (`id`),
                                 FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)
 );
@@ -211,10 +211,10 @@ SET foreign_key_checks = 0;
 INSERT INTO `customer` (`firstname`, `lastname`, `email`, `phone_number`, `year_of_birth`, `sex`, `customer_id_introduce`)
 VALUES
 ('John', 'Doe', 'john.doe@example.com', '1234567890', 1990, 'Male', NULL),
-('Jane', 'Doe', 'jane.doe@example.com', '9876543210', 1995, 'Female', NULL),
-('Alice', 'Johnson', 'alice.johnson@example.com', '555-1234', 1992, 'Female', NULL),
-('Bob', 'Smith', 'bob.smith@example.com', '555-5678', 1985, 'Male', NULL),
-('Charlie', 'Williams', 'charlie.williams@example.com', '555-9876', 1998, 'Male', NULL);
+('Jane', 'Doe', 'jane.doe@example.com', '9876543210', 1995, 'Female', 1),
+('Alice', 'Johnson', 'alice.johnson@example.com', '555-1234', 1992, 'Female', 1),
+('Bob', 'Smith', 'bob.smith@example.com', '555-5678', 1985, 'Male', 2),
+('Charlie', 'Williams', 'charlie.williams@example.com', '555-9876', 1998, 'Male', 3);
 
 -- Insert values into the `account` table
 INSERT INTO `account` (`account_name`, `password`, `account_balance`, `customer_id`)
@@ -255,43 +255,35 @@ VALUES
 -- Insert values into the `accountant_staff` table
 INSERT INTO `accountant_staff` (`staff_id`, `degree`)
 VALUES
-(1, 'AccountantDegree1'),
-(2, 'AccountantDegree2'),
-(3, 'AccountantDegree3'),
-(4, 'AccountantDegree4'),
-(5, 'AccountantDegree5');
+(1, 'Accountant Degree of UEH');
 
 -- Insert values into the `maintenance_staff` table
 INSERT INTO `maintenance_staff` (`staff_id`, `degree`)
 VALUES
-(1, 'MaintenanceDegree1'),
-(2, 'MaintenanceDegree2'),
-(3, 'MaintenanceDegree3'),
-(4, 'MaintenanceDegree4'),
-(5, 'MaintenanceDegree5');
+(2, 'Maintenance Degree of BKU');
 
 -- Insert values into the `transaction` table
 INSERT INTO `transaction` (`amount`, `account_id`, `content`, `status`, `invoice_id`)
 VALUES
-(50, 1, 'Transaction 1 Content', 'Completed', 1),
-(30, 2, 'Transaction 2 Content', 'Pending', 2),
-(40, 3, 'Transaction 3 Content', 'Completed', 3),
-(25, 4, 'Transaction 4 Content', 'Pending', 4);
+(50, 1, 'Transaction 1 Content', 'Recharge', NULL),
+(30, 1, 'Transaction 2 Content', 'Payment', 1),
+(40, 2, 'Transaction 3 Content', 'Recharge', 3),
+(25, 2, 'Transaction 4 Content', 'Payment', NULL);
 
 -- Insert values into the `invoice` table
 INSERT INTO `invoice` (`discount_event_id`, `payment_method`, `staff_id`, `customer_id`)
 VALUES
 (1, 'Credit_Card', 1, 1),
-(2, 'Bank_Transfer', 2, 2),
+(2, 'Account_Wallet', 2, 2),
 (3, 'Cash', 3, 3),
-(4, 'Credit_Card', 4, 4);
+(4, 'Account_Wallet', 4, 4);
 
--- Insert values into the `cart_product` table
-INSERT INTO `cart_product` (`invoice_id`, `product_id`, `price`, `quantity`)
+-- Insert values into the `invoice_product` table
+INSERT INTO `invoice_product` (`invoice_id`, `product_id`, `price`, `quantity`)
 VALUES
-(1, 1, 20.5, 2),
+(2, 1, 20.5, 2),
 (2, 2, 30.0, 1),
-(3, 3, 25.0, 3),
+(4, 3, 25.0, 3),
 (4, 4, 35.0, 1);
 
 -- Insert values into the `product` table
@@ -353,10 +345,10 @@ VALUES
 -- Insert values into the `maintain_staff_device` table
 INSERT INTO `maintain_staff_device` (`staff_id`, `room_order`, `room_type`, `slot_order`, `device_order`, `time`)
 VALUES
-(1, 1, 'Single', 1, 1, '2023-01-02'),
+(2, 1, 'Single', 1, 1, '2023-01-02'),
 (2, 2, 'Double', 1, 1, '2023-02-02'),
-(3, 3, 'Suite', 1, 1, '2023-03-02'),
-(4, 4, 'Deluxe', 1, 1, '2023-04-02');
+(2, 3, 'Suite', 1, 1, '2023-03-02'),
+(2, 4, 'Deluxe', 1, 1, '2023-04-02');
 
 -- Insert values into the `discount_event` table
 INSERT INTO `discount_event` (`id`, `name`, `start_date`, `end_date`, `discount_percent`)

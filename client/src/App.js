@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import Main from "./pages/main";
+import Home from "./pages/Home";
+import AdminHome from "./pages/admin/Home";
+import StaffHome from "./pages/staff/Home";
+import CustomerHome from "./pages/customer/Home"; 
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 
@@ -14,7 +17,10 @@ function App() {
         <div className="app">
           <main className="content">
             <Routes>
-              <Route path="/" element={<Main />} />
+              <Route path="/" element={<Home />} />
+              <Route path="/admin" element={<AdminHome />} />
+              <Route path="/staff" element={<StaffHome />} />
+              <Route path="/customer" element={<CustomerHome />} />
             </Routes>
           </main>
         </div>

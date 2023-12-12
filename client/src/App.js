@@ -3,23 +3,29 @@ import { Routes, Route } from "react-router-dom";
 import Main from "./pages/main";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
+import DepositPage from "./components/Cash";
+import LoginForm from "./components/Login";
+import HomeCustomerPage from "./components/CustomerHomePage";
+import FoodOrderPage from "./components/FoodService";
+import CartPage from "./components/Cart";
 
 function App() {
   const [theme, colorMode] = useMode();
 
   return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <div className="app">
-          <main className="content">
-            <Routes>
-              <Route path="/" element={<Main />} />
-            </Routes>
-          </main>
-        </div>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
+    <div className="app">
+      <main className="content">
+        <Routes>
+          <Route path="/customer/cart" element={<CartPage/>} />
+          <Route path='/customer/order-food' element={<FoodOrderPage />} />
+          <Route path="/customer/login" element={<LoginForm />} />
+          <Route path="/customer/cash" element={<DepositPage />} />
+          <Route path="/customer" element={<HomeCustomerPage />} />
+
+          <Route path="/" element={<Main />} />
+        </Routes>
+      </main>
+    </div>
   );
 }
 

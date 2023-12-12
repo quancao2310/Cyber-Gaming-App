@@ -78,7 +78,8 @@ CREATE TABLE `transaction` (
                                `status` ENUM ('Recharge', 'Payment'),
                                `invoice_id` INT,
                                FOREIGN KEY (`account_id`) REFERENCES `account` (`id`),
-                               FOREIGN KEY (`invoice_id`) REFERENCES `invoice` (`id`)
+                               FOREIGN KEY (`invoice_id`) REFERENCES `invoice` (`id`),
+                               CONSTRAINT chk_recharge_invoice_id CHECK (status = 'Recharge' AND invoice_id IS NULL)
 );
 
 CREATE TABLE `invoice` (
@@ -99,7 +100,7 @@ CREATE TABLE `invoice_product` (
                                 `quantity` INT DEFAULT 0,
                                 PRIMARY KEY (`invoice_id`, `product_id`),
                                 FOREIGN KEY (`invoice_id`) REFERENCES `invoice` (`id`),
-                                FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)
+                                FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE SET NULL
 );
 
 CREATE TABLE `product` (
@@ -115,7 +116,7 @@ CREATE TABLE `product_image` (
                                  `product_id` INT,
                                  `url` VARCHAR(255),
                                  `title` VARCHAR(60),
-                                 FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)
+                                 FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)  ON DELETE CASCADE
 );
 
 CREATE TABLE `room` (

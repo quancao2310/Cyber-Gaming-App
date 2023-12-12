@@ -24,20 +24,30 @@ const Navbar = () => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          CyberGaming
+        <Typography
+          variant="h6"
+          component="div"
+          sx={{ flexGrow: 1 }}
+          
+        >
+          <Link to="/customer" style={{ color: "white",textDecoration:"none" }}>CyberGaming</Link>
         </Typography>
+
         {login ? (
           <div>
             <IconButton color="inherit" aria-label="cart">
               <ShoppingCartIcon />
             </IconButton>
-            <Button color="inherit">Cart</Button>
+            <Link to="/customer/cart" style={{ color: "white" }}>
+              <Button color="inherit">Cart</Button>
+            </Link>
             <IconButton color="inherit" aria-label="profile">
               <AccountCircleIcon />
             </IconButton>
             <Button color="inherit">Profile</Button>
-            <Button color="inherit">Deposit</Button>
+            <Link to="/customer/cash" style={{ color: "white" }}>
+              <Button color="inherit">Deposit</Button>
+            </Link>
 
             <Button
               color="inherit"

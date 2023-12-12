@@ -35,7 +35,7 @@ const DepositPage = () => {
   useLayoutEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) {
-      window.location.href = '/customer/login';
+      window.location.href = '/customer/login/?redirect=/customer/cash';
     }
   }, []);
 

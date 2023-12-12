@@ -15,12 +15,13 @@ const LoginForm = () => {
   };
 
   const handleSubmit = (e) => {
+    const redirect = new URLSearchParams(window.location.search).get('redirect');
     e.preventDefault();
     // You can add your login logic here
     console.log('Username:', username);
     console.log('Password:', password);
     localStorage.setItem('token', 'mytoken');
-    window.location.href = '/customer/cash';
+    window.location.href = redirect || '/customer';
   };
 
   return (

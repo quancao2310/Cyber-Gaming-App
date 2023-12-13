@@ -89,6 +89,7 @@ CREATE TABLE `invoice` (
                     `staff_id` INT,
                     `customer_id` INT,
                     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    status ENUM ('Paid', 'Unpaid'),
                     FOREIGN KEY (`staff_id`) REFERENCES `staff` (`id`),
                     FOREIGN KEY (`customer_id`) REFERENCES `customer` (`id`)
 );

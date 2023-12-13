@@ -1,19 +1,28 @@
 import { Routes, Route } from "react-router-dom";
+import Topbar from "../../scenes/global/Topbar";
+import Sidebar from "../../scenes/global/Sidebar";
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { ColorModeContext, useMode } from "../../theme";
 import Product from "./ProductManagement";
 
 function AdminHome() {
   return (
-    <>
-    <h1>123</h1>
-    {/* <Routes>
-      <Route path ="/" >
-        <Route index element={<h1>Welcome to Admin Home</h1>} />
-        <Route path="product" element={<Product />} />
-        <Route path="transaction" element={<div>Transaction Page</div>} />
-        <Route path="discount-event" element={<div>Discount Event Page</div>} />
-      </Route>
-    </Routes> */}
-    </>
+    <ColorModeContext.Provider value={colorMode}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <div className="app">
+          <main className="content">
+            <Routes>
+              <Route path="/" element={<></>}>
+                <Route path="product" element={<Product />} />
+                <Route path="transaction" element={<></>} />
+                <Route path="discount-event" element={<></>} />
+              </Route>
+            </Routes>
+          </main>
+        </div>
+      </ThemeProvider>
+    </ColorModeContext.Provider>
   );
 }
 

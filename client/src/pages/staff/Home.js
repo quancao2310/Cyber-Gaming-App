@@ -1,25 +1,15 @@
-import { useState } from "react";
+import React from 'react';
 import { Routes, Route } from "react-router-dom";
-import { CssBaseline, ThemeProvider } from "@mui/material";
-import { ColorModeContext, useMode } from "../../theme";
+import Login from './Login';
+import BillingProcess from './BillingProcess';
 
-function StaffHome() {
-  const [theme, colorMode] = useMode();
-  const [isSidebar, setIsSidebar] = useState(true);
-
+const StaffHome = () => {
   return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <div className="app">
-          <main className="content">
-            <Routes>
-            </Routes>
-          </main>
-        </div>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
+    <Routes>
+      <Route path="/" element={<Login />} />
+      <Route path="/billing-process" element={<BillingProcess />} />
+      </Routes>
   );
-}
+};
 
 export default StaffHome;

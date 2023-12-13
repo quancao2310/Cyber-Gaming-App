@@ -89,6 +89,7 @@ CREATE TABLE `invoice` (
                     `staff_id` INT,
                     `customer_id` INT,
                     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    `total_order_value` INT DEFAULT 0,
                     FOREIGN KEY (`staff_id`) REFERENCES `staff` (`id`),
                     FOREIGN KEY (`customer_id`) REFERENCES `customer` (`id`)
 );
@@ -226,18 +227,18 @@ VALUES
 
 
 -- Insert values into the `account` table
-INSERT INTO `account` (`account_name`, `password`, `account_balance`, `status`, `customer_id`)
+INSERT INTO `account` (`account_name`, `password`, `account_balance`, `customer_id`)
 VALUES
-('ngocrongonline', 'catdoinoisau', 300000, `active`, 1),
-('giaitich2', 'vatly1', 100000,`active`, 2),
-('lanxinhgai', '05061999', 70000, `active`, 3),
-('vuxuanduc', '0154258778', 120000, `active`, 4),
-('haidilao', '01478963250', 40000, `active`, 5),
-('oneeye', 'triangle', 5000, `disabled`, 6),
-('erenyeager', 'attackontitan', 10000, `active`, 7),
-('hitdat500cai', 'chay500km', 50000, `active`, 8);
-('quynhquanquai', '0984512475', 50000, `active`, 9);
-('sepoidungdideadlineemnua', 'chamkarmvsdeadline', 50000, `active`, 10);
+('ngocrongonline', 'catdoinoisau', 3000009, 1),
+('giaitich2', 'vatly1', 200, 2),
+('lanxinhgai', '05061999', 70000, 3),
+('vuxuanduc', '0154258778', 120000, 4),
+('haidilao', '01478963250', 40000, 5),
+('oneeye', 'triangle', 5000, 6),
+('erenyeager', 'attackontitan', 10000, 7),
+('hitdat500cai', 'chay500km', 50000, 8),
+('quynhquanquai', '0984512475', 50000, 9),
+('sepoidungdideadlineemnua', 'chamkarmvsdeadline', 50000, 10);
 
 -- Insert values into the `staff` table
 INSERT INTO `staff` (`firstname`, `lastname`, `CCCD`, `age`, `sex`, `bank_name`, `bank_credit_num`)
@@ -289,14 +290,14 @@ VALUES
 -- Insert values into the `invoice` table
 INSERT INTO `invoice` (`payment_method`, `payment_status`, `staff_id`, `customer_id`)
 VALUES
-('Credit Card', `Paid`, 1, 1),
-('Cash', `Unpaid`, 2, 2),
-('Cash', `Paid`, 3, 3),
-('Cash', `Paid`, 4, 4),
-('Credit Card', `Paid`, 1, 5),
-('Credit Card', `Paid`, 1, 6),
-('Credit Card', `Paid`, 1, 7),
-('Credit Card', `Paid`, 1, 8);
+('Credit Card', 'Paid', 1, 1),
+('Cash', 'Unpaid', 2, 2),
+('Cash', 'Paid', 3, 3),
+('Cash', 'Paid', 4, 4),
+('Credit Card', 'Paid', 1, 5),
+('Credit Card', 'Paid', 1, 6),
+('Credit Card', 'Paid', 1, 7),
+('Credit Card', 'Paid', 1, 8);
 
 -- Insert values into the `invoice_product` table
 INSERT INTO `invoice_product` (`invoice_id`, `product_id`, `price`, `quantity`)

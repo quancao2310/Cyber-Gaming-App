@@ -16,7 +16,7 @@ import OrderRoomPage from "./components/RoomService";
 import ComputerOrderPage from "./components/SlotService";
 import OrderSuccessPage from "./components/OrderSuccess";
 import DepositSuccessPage from "./components/CashInSuccess";
-
+import { mockDataInvoices } from "./data/mockData";
 function App() {
   const [theme, colorMode] = useMode();
 
@@ -43,8 +43,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/admin" element={<AdminHome />} />
           <Route path="/staff" element={<StaffHome />} />
+          <Route path="/billing-process" element={<BillingProcess/>} />
           <Route path="/customer" element={<CustomerHome />} />
-          <Route path="/billing-process" element={<BillingProcess />} />
         </Routes>
       </main>
     </div>

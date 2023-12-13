@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./Home";
 import AdminHome from "./admin/Home";
@@ -11,17 +10,22 @@ function Main() {
   const [theme, colorMode] = useMode();
 
   return (
-    <div className="app">
-      <main className="content">
-        <Routes>
-          <Route path="/" element={<Home />}>
-            <Route path="admin" element={<AdminHome />} />
-            <Route path="staff" element={<StaffHome />} />
-            <Route path="customer" element={<CustomerHome />} />
-          </Route>
-        </Routes>
-      </main>
-    </div>
+    <ColorModeContext.Provider value={colorMode}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <div className="app">
+          <main className="content">
+            <Routes>
+              <Route path='/'>
+                <Route index element={<Home />} />
+              </Route>
+              <Route path='admin' element={<AdminHome />} />
+              <Route path='*' element={<h1>NOT FOUND!</h1>} />
+            </Routes>
+          </main>
+        </div>
+      </ThemeProvider>
+    </ColorModeContext.Provider>
   );
 }
 

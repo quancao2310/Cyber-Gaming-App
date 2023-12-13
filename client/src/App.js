@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import Main from "./pages/main";
+import Home from "./pages/Home";
+import AdminHome from "./pages/admin/Home";
+import StaffHome from "./pages/staff/Home";
+import CustomerHome from "./pages/customer/Home"; 
+import BillingProcess from "./pages/staff/BillingProcess"
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import DepositPage from "./components/Cash";
@@ -30,7 +34,11 @@ function App() {
           <Route path="/customer/cash" element={<DepositPage />} />
           <Route path="/customer" element={<HomeCustomerPage />} />
 
-          <Route path="/" element={<Main />} />
+          <Route path="/" element={<Home />} />
+              <Route path="/admin" element={<AdminHome />} />
+              <Route path="/staff" element={<StaffHome />} />
+              <Route path="/customer" element={<CustomerHome />} />
+              <Route path="/billing-process" element={<BillingProcess />} />
         </Routes>
       </main>
     </div>

@@ -355,8 +355,8 @@ INSERT INTO `room_invoice` (`room_type`, `room_order`, `invoice_id`, `start_time
 VALUES
 ('Couple', 1, 5, '2023-02-01 10:00:00', '2023-02-01 23:00:00'),
 ('Couple', 2, 6, '2023-02-02 10:00:00', '2023-02-02 23:00:00'),
-('Comp', 3, 7, '2023-03-01 00:00:00', '2023-03-03 00:00:00'),
-('Comp', 4, 8, '2023-04-01 00:00:00', '2023-04-05 00:00:00');
+('Comp', 1, 7, '2023-03-01 00:00:00', '2023-03-03 00:00:00'),
+('Comp', 2, 8, '2023-04-01 00:00:00', '2023-04-05 00:00:00');
 
 -- Insert values into the `slot` table
 INSERT INTO `slot` (`room_type`, `room_order`, `slot_order`)
@@ -429,7 +429,7 @@ VALUES
 -- Insert values into the `discount_event` table
 INSERT INTO `discount_event` (`name`, `start_date`, `end_date`, `discount_percent`)
 VALUES
-('Giairm giá mừng khai trương', '2023-01-01', '2023-01-15', 10),
+('Giảm giá mừng khai trương', '2023-01-01', '2023-01-15', 10),
 ('Discount Event 2', '2023-02-01', '2023-02-09', 15),
 ('Discount Event 3', '2023-03-01', '2023-03-04', 20),
 ('Discount Event 4', '2023-04-01', '2023-04-02', 15);

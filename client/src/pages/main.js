@@ -1,11 +1,13 @@
-import { useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
+import Product from "./admin/ProductManagement";
 import Home from "./Home";
 import AdminHome from "./admin/Home";
 import StaffHome from "./staff/Home";
-import CustomerHome from "./customer/Home"; 
+import CustomerHome from "./customer/Home";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "../theme";
+import DiscountEvent from "./admin/DiscountEventManagement";
+import Transaction from "./admin/TransactionManagement";
 
 function Main() {
   const [theme, colorMode] = useMode();
@@ -17,11 +19,12 @@ function Main() {
         <div className="app">
           <main className="content">
             <Routes>
-                <Route path="/" element={<Home />}>
-                  <Route path="admin" element={<AdminHome />} />
-                  <Route path="staff" element={<StaffHome />} />
-                  <Route path="customer" element={<CustomerHome />} />
-                </Route>
+              <Route path='/'>
+                <Route index element={<Transaction />} />
+                <Route path='admin' element={<AdminHome />} />
+              </Route>
+              <Route path='admin' element={<AdminHome />} />
+              <Route path='*' element={<h1>NOT FOUND!</h1>} />
             </Routes>
           </main>
         </div>

@@ -11,7 +11,11 @@ const StaffHome = () => {
 
     const updateState = () => {
       if (state) {
-        setInvoices(mockDataInvoices)
+        fetch("http://localhost:5000/api/invoice")
+        .then(res=>res.json())
+        .then((data) => {
+          setInvoices(data);
+        })
       }
       setState(!state);
     };

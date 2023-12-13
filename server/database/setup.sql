@@ -84,7 +84,6 @@ CREATE TABLE `transaction` (
 
 CREATE TABLE `invoice` (
                     `id` INT PRIMARY KEY AUTO_INCREMENT,
-                    `payment_method` ENUM ('Credit Card', 'Bank Transfer', 'Cash'),
                     `payment_status` VARCHAR(20),
                     `staff_id` INT,
                     `customer_id` INT,
@@ -135,7 +134,6 @@ CREATE TABLE `room_invoice` (
                     `room_type` VARCHAR(20),
                     `room_order` INT,
                     `invoice_id` INT,
-                    `status` VARCHAR(20),
                     `start_time` DATETIME,
                     `end_time` DATETIME,
                     PRIMARY KEY (`room_type`, `room_order`, `invoice_id`),
@@ -156,7 +154,6 @@ CREATE TABLE `slot_invoice` (
                     `room_order` INT,
                     `slot_order` INT,
                     `invoice_id` INT,
-                    `status` VARCHAR(20),
                     `start_time` DATETIME,
                     `end_time` DATETIME,
                     PRIMARY KEY (`room_type`, `room_order`, `slot_order`, `invoice_id`),
@@ -288,16 +285,27 @@ VALUES
 (25, 2, 'Transaction 4 Content', 'Payment', 3);
 
 -- Insert values into the `invoice` table
-INSERT INTO `invoice` (`payment_method`, `payment_status`, `staff_id`, `customer_id`)
+INSERT INTO `invoice` (`payment_status`, `staff_id`, `customer_id`)
 VALUES
-('Credit Card', 'Paid', 1, 1),
-('Cash', 'Unpaid', 2, 2),
-('Cash', 'Paid', 3, 3),
-('Cash', 'Paid', 4, 4),
-('Credit Card', 'Paid', 1, 5),
-('Credit Card', 'Paid', 1, 6),
-('Credit Card', 'Paid', 1, 7),
-('Credit Card', 'Paid', 1, 8);
+('Paid', 1, 1),
+('Unpaid', 2, 2),
+('Paid', 3, 3),
+('Paid', 4, 4),
+('Paid', 1, 5),
+('Paid', 1, 6),
+('Paid', 1, 7),
+('Paid', 1, 8);
+
+INSERT INTO `invoice` (`payment_status`, `customer_id`)
+VALUES
+('Unpaid', 2),
+('Paid', 6),
+('Paid', 7),
+('Paid', 1),
+('Paid', 5),
+('Paid', 2),
+('Paid', 7),
+('Paid', 1);
 
 -- Insert values into the `invoice_product` table
 INSERT INTO `invoice_product` (`invoice_id`, `product_id`, `price`, `quantity`)
@@ -429,7 +437,7 @@ VALUES
 -- Insert values into the `discount_event` table
 INSERT INTO `discount_event` (`name`, `start_date`, `end_date`, `discount_percent`)
 VALUES
-('Giairm giá mừng khai trương', '2023-01-01', '2023-01-15', 10),
+('Giảm giá mừng khai trương', '2023-01-01', '2023-01-15', 10),
 ('Discount Event 2', '2023-02-01', '2023-02-09', 15),
 ('Discount Event 3', '2023-03-01', '2023-03-04', 20),
 ('Discount Event 4', '2023-04-01', '2023-04-02', 15);

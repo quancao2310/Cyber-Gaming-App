@@ -1,9 +1,15 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useLayoutEffect } from "react";
 import { Container, Typography, Button, Grid } from "@mui/material";
 import Navbar from "./Navbar";
 import { Link } from "react-router-dom";
 
 const HomeCustomerPage = () => {
+    useLayoutEffect(() => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            window.location.href = "/customer/login?redirect=/customer";
+        }
+    }, []);
   // You can add onClick handlers for each service button
 
   return (

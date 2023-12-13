@@ -9,7 +9,7 @@ import HomeCustomerPage from "./components/CustomerHomePage";
 import FoodOrderPage from "./components/FoodService";
 import CartPage from "./components/Cart";
 import OrderRoomPage from "./components/RoomService";
-import SlotOrderRoomPage from "./components/SlotService";
+import ComputerOrderPage from "./components/SlotService";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -19,7 +19,7 @@ function App() {
       <main className="content">
         <Routes>
           <Route path="/customer/cart" element={<CartPage/>} />
-          <Route path='/customer/order-slot' element={<SlotOrderRoomPage />} />
+          <Route path='/customer/order-slot' element={<ComputerOrderPage />} />
           <Route path='/customer/order-room' element={<OrderRoomPage />} />
           <Route path='/customer/order-food' element={<FoodOrderPage />} />
           <Route path="/customer/login" element={<LoginForm />} />

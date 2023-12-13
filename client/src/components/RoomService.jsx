@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import {
   Container,
   Typography,
@@ -15,7 +15,8 @@ const availableRooms = [
     id: 3,
     name: "Couple Room",
     description: "A romantic room for couples.",
-    image: "https://i.pinimg.com/originals/48/0e/8b/480e8b4bcb61706fad950f33e9e415e0.jpg",
+    image:
+      "https://i.pinimg.com/originals/48/0e/8b/480e8b4bcb61706fad950f33e9e415e0.jpg",
     price: 199.99,
     isAvailable: false,
   },
@@ -23,7 +24,8 @@ const availableRooms = [
     id: 4,
     name: "Smoking Room",
     description: "A smoking room with a view.",
-    image: "https://www.reviewjournal.com/wp-content/uploads/2022/08/16755189_web1_16755189-0c928ffac2a44c0c96a6947bf8443dbf.jpg?w=1067",
+    image:
+      "https://www.reviewjournal.com/wp-content/uploads/2022/08/16755189_web1_16755189-0c928ffac2a44c0c96a6947bf8443dbf.jpg?w=1067",
     price: 99.99,
     isAvailable: true,
   },
@@ -31,15 +33,22 @@ const availableRooms = [
     id: 5,
     name: "Bida Room",
     description: "A room with a pool table.",
-    image: "https://product.hstatic.net/1000028508/product/176430504_127772386049509_4380114269469069265_n_29b647272cde43818e060ff00d06d93a.jpg",
+    image:
+      "https://product.hstatic.net/1000028508/product/176430504_127772386049509_4380114269469069265_n_29b647272cde43818e060ff00d06d93a.jpg",
     price: 299.99,
     isAvailable: true,
-  }
+  },
   // Add more room options as needed
 ];
 
 const OrderRoomPage = () => {
   const [selectedRoom, setSelectedRoom] = useState(null);
+  useLayoutEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      window.location.href = "/customer/login?redirect=/customer/order-room";
+    }
+  }, []);
 
   const handleRoomSelection = (room) => {
     setSelectedRoom(room);
@@ -51,6 +60,24 @@ const OrderRoomPage = () => {
       console.log(`Ordered ${selectedRoom.name}`);
       // Add additional logic (e.g., API calls, updating state, etc.)
     }
+    const orderRoom = localStorage.getItem("orderRoom") ? JSON.parse(localStorage.getItem("orderRoom")) : [];
+    let flag = false;
+    for (let i = 0; i < orderRoom.length; i++) {
+      if (orderRoom[i].room === selectedRoom.name) {
+        orderRoom[i].quantity = parseInt(orderRoom[i].quantity) + 1;
+        flag = true;
+      }
+    }
+    if (!flag) {
+      const order = {
+        room: selectedRoom.name,
+        quantity: 1,
+        unit_price: selectedRoom.price,
+      };
+      orderRoom.push(order);
+    }
+    localStorage.setItem("orderRoom", JSON.stringify(orderRoom));
+    setSelectedRoom(null);
   };
 
   return (

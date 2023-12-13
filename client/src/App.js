@@ -16,6 +16,7 @@ import DepositSuccessPage from "./components/CashInSuccess";
 import Product from "./pages/admin/ProductManagement";
 import Transaction from "./pages/admin/TransactionManagement";
 import DiscountEvent from "./pages/admin/DiscountEventManagement";
+import { mockDataInvoices } from "./data/mockData";
 
 function App() {
 

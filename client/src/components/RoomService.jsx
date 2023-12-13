@@ -7,6 +7,7 @@ import {
   CardMedia,
   Grid,
   Button,
+  TextField,
 } from "@mui/material";
 import Navbar from "./Navbar";
 
@@ -43,6 +44,8 @@ const availableRooms = [
 
 const OrderRoomPage = () => {
   const [selectedRoom, setSelectedRoom] = useState(null);
+  const [playtime, setPlaytime] = useState("");
+  
   useLayoutEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -54,17 +57,23 @@ const OrderRoomPage = () => {
     setSelectedRoom(room);
   };
 
+  const handlePlaytimeChange = (event) => {
+    setPlaytime(event.target.value);
+  };
+
   const handleOrderRoom = () => {
-    // Add your logic to handle the room reservation/order
-    if (selectedRoom) {
-      console.log(`Ordered ${selectedRoom.name}`);
+    // Add your logic to handle the room reservation/order with playtime
+    if (selectedRoom && playtime.trim() !== "") {
+      console.log(`Ordered ${selectedRoom.name} for ${playtime} hours`);
       // Add additional logic (e.g., API calls, updating state, etc.)
     }
-    const orderRoom = localStorage.getItem("orderRoom") ? JSON.parse(localStorage.getItem("orderRoom")) : [];
+    const orderRoom = localStorage.getItem("orderRoom")
+      ? JSON.parse(localStorage.getItem("orderRoom"))
+      : [];
     let flag = false;
     for (let i = 0; i < orderRoom.length; i++) {
       if (orderRoom[i].room === selectedRoom.name) {
-        orderRoom[i].quantity = parseInt(orderRoom[i].quantity) + 1;
+        orderRoom[i].playtime = parseInt(orderRoom[i].playtime) + parseInt(playtime);
         flag = true;
       }
     }
@@ -72,12 +81,14 @@ const OrderRoomPage = () => {
       const order = {
         room: selectedRoom.name,
         quantity: 1,
+        playtime: parseInt(playtime),
         unit_price: selectedRoom.price,
       };
       orderRoom.push(order);
     }
     localStorage.setItem("orderRoom", JSON.stringify(orderRoom));
     setSelectedRoom(null);
+    setPlaytime("");
   };
 
   return (
@@ -128,6 +139,15 @@ const OrderRoomPage = () => {
             <Typography variant="h6">
               Price: ${selectedRoom.price.toFixed(2)}
             </Typography>
+            <TextField
+              label="Playtime (hours)"
+              type="number"
+              InputProps={{ inputProps: { min: 1 } }}
+              value={playtime}
+              onChange={handlePlaytimeChange}
+              fullWidth
+              style={{ marginTop: "10px" }}
+            />
             <Button
               onClick={handleOrderRoom}
               color="primary"

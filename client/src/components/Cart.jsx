@@ -60,6 +60,22 @@ const CartPage = () => {
     localStorage.setItem("orderComputer", JSON.stringify(updatedSlot));
   };
 
+  const handleRemoveFromRoom = (roomname) => {
+    const updatedRoom = roomItems.filter((item) => item.room !== roomname);
+    setRoomItems(updatedRoom);
+    localStorage.setItem("orderRoom", JSON.stringify(updatedRoom));
+  };
+
+  const handleQuantityChangeRoom = (roomname, newQuantity) => {
+    const updatedRoom = roomItems.map((item) =>
+      item.room === roomname
+        ? { ...item, playtime: parseInt(newQuantity) }
+        : item
+    );
+    setRoomItems(updatedRoom);
+    localStorage.setItem("orderRoom", JSON.stringify(updatedRoom));
+  };
+
   // Calculate the total cost of items in the cart
   const calculateTotal = () => {
     const sumProduct = cartItems.reduce(
@@ -70,7 +86,11 @@ const CartPage = () => {
       (total, item) => total + item.unit_price * item.playtime,
       0
     );
-    return sumProduct + sumSlot;
+    const sumRoom = roomItems.reduce(
+      (total, item) => total + item.unit_price * item.quantity * item.playtime,
+      0
+    );
+    return sumProduct + sumSlot + sumRoom;
   };
 
   return (
@@ -209,7 +229,7 @@ const CartPage = () => {
                   </Card>
                 </Grid>
               ))}
-               {roomItems.map((cartItem, index) => (
+              {roomItems.map((cartItem, index) => (
                 <Grid item key={index} xs={12} sm={6} md={4}>
                   <Card>
                     <CardMedia
@@ -235,11 +255,16 @@ const CartPage = () => {
                         label="Playtime"
                         inputProps={{ min: 1 }}
                         value={cartItem.playtime}
-                        
+                        onChange={(e) =>
+                          handleQuantityChangeRoom(
+                            cartItem.room,
+                            e.target.value
+                          )
+                        }
                         fullWidth
                       />
                       <Button
-                        onClick={() => handleRemoveFromSlot(cartItem.computer)}
+                        onClick={() => handleRemoveFromRoom(cartItem.room)}
                         color="primary"
                         variant="contained"
                         fullWidth

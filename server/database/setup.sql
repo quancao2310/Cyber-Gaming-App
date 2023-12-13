@@ -84,11 +84,11 @@ CREATE TABLE `transaction` (
 
 CREATE TABLE `invoice` (
                     `id` INT PRIMARY KEY AUTO_INCREMENT,
+                    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     `payment_status` VARCHAR(20),
+                    `total_order_value` INT DEFAULT 0,
                     `staff_id` INT,
                     `customer_id` INT,
-                    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                    `total_order_value` INT DEFAULT 0,
                     FOREIGN KEY (`staff_id`) REFERENCES `staff` (`id`),
                     FOREIGN KEY (`customer_id`) REFERENCES `customer` (`id`)
 );
@@ -134,7 +134,6 @@ CREATE TABLE `room_invoice` (
                     `room_type` VARCHAR(20),
                     `room_order` INT,
                     `invoice_id` INT,
-                    `status` VARCHAR(20),
                     `start_time` DATETIME,
                     `end_time` DATETIME,
                     PRIMARY KEY (`room_type`, `room_order`, `invoice_id`),
@@ -155,7 +154,6 @@ CREATE TABLE `slot_invoice` (
                     `room_order` INT,
                     `slot_order` INT,
                     `invoice_id` INT,
-                    `status` VARCHAR(20),
                     `start_time` DATETIME,
                     `end_time` DATETIME,
                     PRIMARY KEY (`room_type`, `room_order`, `slot_order`, `invoice_id`),

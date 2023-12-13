@@ -3,7 +3,6 @@ import Topbar from "../../scenes/global/Topbar";
 import Sidebar from "../../scenes/global/Sidebar";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "../../theme";
-import Product from "./ProductManagement";
 
 function AdminHome() {
   return (
@@ -14,7 +13,6 @@ function AdminHome() {
           <main className="content">
             <Routes>
               <Route path="/" element={<></>}>
-                <Route path="product" element={<Product />} />
                 <Route path="transaction" element={<></>} />
                 <Route path="discount-event" element={<></>} />
               </Route>

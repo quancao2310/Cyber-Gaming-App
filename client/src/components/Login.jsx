@@ -21,6 +21,7 @@ const LoginForm = () => {
     console.log('Username:', username);
     console.log('Password:', password);
     localStorage.setItem('token', 'mytoken');
+    localStorage.setItem('account_balance', '123.45')
     window.location.href = redirect || '/customer';
   };
 

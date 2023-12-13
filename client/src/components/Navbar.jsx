@@ -16,10 +16,13 @@ const Navbar = () => {
   }, []);
 
   const handleLogout = () => {
+    localStorage.removeItem("account_balance");
     localStorage.removeItem("token");
     setLogin(false);
     window.location.href = "/customer/login";
   };
+
+  const account_balance = localStorage.getItem("account_balance") ? parseFloat(localStorage.getItem("account_balance")) : 0;
 
   return (
     <AppBar position="static">
@@ -48,7 +51,7 @@ const Navbar = () => {
             <Link to="/customer/cash" style={{ color: "white" }}>
               <Button color="inherit">Deposit</Button>
             </Link>
-
+            <Button color="inherit">${account_balance.toFixed(2)}</Button>
             <Button
               color="inherit"
               style={{ color: "white" }}

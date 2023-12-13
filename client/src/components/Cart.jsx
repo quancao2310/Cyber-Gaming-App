@@ -93,6 +93,29 @@ const CartPage = () => {
     return sumProduct + sumSlot + sumRoom;
   };
 
+  const handleOrder = () => {
+    const order = {
+      productItems: cartItems,
+      slotItems,
+      roomItems,
+      total: calculateTotal(),
+    };
+    console.log(order);
+    const account_balance = localStorage.getItem("account_balance")
+      ? parseFloat(localStorage.getItem("account_balance"))
+      : 0;
+    if (account_balance < order.total) {
+      alert("Not enough money!");
+      return;
+    }
+    localStorage.setItem("account_balance", account_balance - order.total);
+    localStorage.removeItem("order");
+    localStorage.removeItem("orderComputer"); // [4
+    localStorage.removeItem("orderRoom"); // [4
+    localStorage.setItem("totalPrice", calculateTotal());
+    window.location.href = "/customer/order/success";
+  };
+
   return (
     <Fragment>
       <Navbar />
@@ -125,6 +148,7 @@ const CartPage = () => {
             align="right"
             variant="contained"
             fullWidth
+            onClick={handleOrder}
           >
             Order
           </Button>

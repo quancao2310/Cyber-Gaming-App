@@ -29,6 +29,10 @@ const DepositPage = () => {
     // Add your deposit logic here
     console.log('Amount:', amount);
     console.log('Payment Method:', paymentMethod);
+
+    const account_balance = localStorage.getItem('account_balance') ? parseFloat(localStorage.getItem('account_balance')) : 0;
+    localStorage.setItem('account_balance', (account_balance + parseFloat(amount)).toFixed(2));
+    window.location.href = '/customer/cash/success?amount=' + amount;
     // You can make API calls or update the state accordingly
   };
 

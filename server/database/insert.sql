@@ -86,7 +86,6 @@ VALUES
 (162000, 3, 'Thanh toán hóa đơn', 'Payment', 3),
 (297000, 4, 'Thanh toán hóa đơn', 'Payment', 4);
 
-
 -- Insert values into the `invoice` table
 INSERT INTO `invoice` (`payment_status`, `total_order_value`, `staff_id`, `customer_id`)
 VALUES
@@ -94,17 +93,6 @@ VALUES
 ('Paid', 58500, 4, 2),
 ('Paid', 162000, 4, 3),
 ('Paid', 297000, 4, 4);
-
-INSERT INTO `invoice` (`payment_status`, `customer_id`)
-VALUES
-('Unpaid', 5),
-('Paid', 5),
-('Paid', 2),
-('Paid', 3),
-('Paid', 1),
-('Paid', 6),
-('Paid', 2),
-('Paid', 3);
 
 -- Insert values into the `invoice_product` table
 INSERT INTO `invoice_product` (`invoice_id`, `product_id`, `price`, `quantity`)

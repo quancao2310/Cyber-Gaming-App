@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -16,9 +17,17 @@ const Login = ({ updateLoginStatus }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     // Here, you can add your logic for handling the login process
+    axios.get(`http://localhost:5000/api/staff/${username}`)
+    .then((res)=>{
+      console.log(res)
+      localStorage.setItem('username', username);
+      updateLoginStatus();
+    })
+    .catch((err)=>{
+      console.log(err)
+      alert("Staff ID is invalid")
+    })
     console.log('Username submitted:', username);
-    localStorage.setItem('username', username);
-    updateLoginStatus();
     // Add further logic (e.g., authentication) as needed
   };
 

@@ -11,68 +11,63 @@ const Staff = function (staff) {
     this.type = staff.type;
     this.bank_name = staff.bank_name;
     this.bank_credit_num = staff.bank_credit_num;
-  }
+  };
 
   Staff.create = (newStaff, result) => {
-    connection.query("INSERT INTO customer SET ?", newStaff, (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(err, null);
-        return;
-      }
-  
-      console.log("created staff: ", { id: res.insertId, ...newStaff });
-      result(null, { id: res.insertId, ...newStaff });
+    const {id, firstname, lastname, CCCD, age, sex, type, bank_name, bank_credit_num} = newStaff;
+
+    return connection.query(
+        "INSERT INTO staff SET id = ?, firstname = ?, lastname = ?, CCCD = ?, age = ?, sex = ?, type = ?, bank_name = ?, bank_credit_num = ?",
+        [id, firstname, lastname, CCCD, age, sex, type, bank_name, bank_credit_num]
+    )
+        .then((res) => {
+        console.log("created new staff: ", { id: res.insertId, ...newStaff });
+        return { id: res.insertId, ...newStaff };
+        })
+        .catch((err) => {
+        console.log("error creating new staff: ", err);
+        throw err;
+        });
+  };
+
+  Staff.findById = (staffID) => {
+    return connection.query("SELECT * FROM staff WHERE id = ?", [staffID])
+    .then((staff) => {
+    if (staff[0].length === 0) {
+        throw { kind: "not_found" };
+    }
+    return staff[0][0];
+    })
+    .catch((err) => {
+    console.log('error finding staff: ', err);
+    throw err;
     });
-  };
+};
 
-  Staff.findById = (staffID, result) => {
-    connection.query(
-      `SELECT * FROM staff WHERE id = ${staffID}`,
-      (err, res) => {
-        if (err) {
-          console.log("error: ", err);
-          result(err, null);
-          return;
+    Staff.findByCCCD = (CCCD) => {
+        return connection.query("SELECT * FROM staff WHERE CCCD = ?", [CCCD])
+        .then((staff) => {
+        if (staff[0].length === 0) {
+            throw { kind: "not_found" };
         }
-  
-        if (res.length) {
-          console.log("found staff: ", res[0]);
-          result(null, res[0]);
-          return;
-        }
-  
-        result({ kind: "not_found" }, null);
-      }
-    );
-  };
+        return staff[0][0];
+        })
+        .catch((err) => {
+        console.log('error finding staff: ', err);
+        throw err;
+        });
+    };
 
-  Staff.findByCCCD = (CCCD) => {
-    return connection
-      .query(`SELECT * FROM staff WHERE CCCD = '${CCCD}'`)
-      .then((data) => {
-        return data[0][0] || null;
-      })
-      .catch((err) => {
-        console.log("error: ", err);
-        return {
-          error: "Can not find staff",
-        };
-      });
-  };
-
-  Staff.getAll = (result) => {
-    connection.query("SELECT * FROM staff", (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(null, err);
-        return;
-      }
-  
-      console.log("staff: ", res);
-      result(null, res);
-    });
-  };
+    Staff.getAll = () => {
+        return connection.query('SELECT * FROM staff')
+        .then((staff) => {
+        return staff[0];
+        })
+        .catch((err) => {
+        console.log('error getting staffs: ', err);
+        throw err;
+        });
+    };
 
   export default Staff;
   

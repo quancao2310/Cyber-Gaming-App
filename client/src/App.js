@@ -18,6 +18,7 @@ import Transaction from "./pages/admin/TransactionManagement";
 import DiscountEvent from "./pages/admin/DiscountEventManagement";
 import { mockDataInvoices } from "./data/mockData";
 import ProductDetail from "./components/ProductManagement/ProductDetail";
+import Invoice from "./pages/admin/InvoiceManagement";
 
 function App() {
 
@@ -49,6 +50,7 @@ function App() {
           <Route path="/admin/product" element={<Product />} />
           <Route path="/admin/product/:productId" element={<ProductDetail />} />
           <Route path="/admin/transaction" element={<Transaction />} />
+          <Route path="/admin/invoice" element={<Invoice />} />
           <Route path="/admin/discount-event" element={<DiscountEvent />} />
 
           {/* Staff routes */}

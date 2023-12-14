@@ -7,9 +7,10 @@ const AdminHome = () => {
         <Navbar.Brand href="/admin">Admin Dashboard</Navbar.Brand>
         <Nav className="me-auto">
           <Nav.Link href="/">Về trang chính</Nav.Link>
-          <Nav.Link href="/admin/product">Quản lý sản phẩm</Nav.Link>
-          <Nav.Link href="/admin/transaction">Quản lý giao dịch</Nav.Link>
-          <Nav.Link href="/admin/discount-event">Quản lý sự kiện khuyến mãi</Nav.Link>
+          <Nav.Link href="/admin/product">Sản phẩm</Nav.Link>
+          <Nav.Link href="/admin/transaction">Giao dịch</Nav.Link>
+          <Nav.Link href="/admin/invoice">Hóa đơn</Nav.Link>
+          <Nav.Link href="/admin/discount-event">Sự kiện khuyến mãi</Nav.Link>
         </Nav>
       </Navbar>
 

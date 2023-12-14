@@ -18,27 +18,27 @@ VALUES
 
 
 -- Insert values into the `account` table
-INSERT INTO `account` (`account_name`, `password`, `account_balance`, `customer_id`)
+INSERT INTO `account` (`account_name`, `password`, `account_balance`, `account_status`, `customer_id`)
 VALUES
-('ngocrongonline', 'catdoinoisau', 3000009, 1),
-('giaitich2', 'vatly1', 200, 2),
-('lanxinhgai', '05061999', 70000, 3),
-('vuxuanduc', '0154258778', 120000, 4),
-('haidilao', '01478963250', 40000, 5),
-('oneeye', 'triangle', 5000, 6),
-('erenyeager', 'attackontitan', 10000, 7),
-('hitdat500cai', 'chay500km', 50000, 8),
-('quynhquanquai', '0984512475', 50000, 9),
-('sepoidungdideadlineemnua', 'chamkarmvsdeadline', 50000, 10);
+('ngocrongonline', 'catdoinoisau', 177000, 'active', 1),
+('giaitich2', 'vatly1', 2415000, 'active', 2),
+('lanxinhgai', '05061999', 248000, 'active', 3),
+('vuxuanduc', '0154258778', 303000, 'active', 4),
+('haidilao', '01478963250', 0, 'active', 5),
+('oneeye', 'triangle', 0, 'active', 6),
+('erenyeager', 'attackontitan', 10000, 'active', 7),
+('hitdat500cai', 'chay500km', 0, 'active', 8),
+('quynhquanquai', '0984512475', 0, 'active', 9),
+('sepoidungdideadlineemnua', 'chamkarmvsdeadline', 0, 'active', 10);
 
 -- Insert values into the `staff` table
-INSERT INTO `staff` (`firstname`, `lastname`, `CCCD`, `age`, `sex`, `bank_name`, `bank_credit_num`)
+INSERT INTO `staff` (`firstname`, `lastname`, `CCCD`, `age`, `sex`, `type`, `bank_name`, `bank_credit_num`)
 VALUES
-('Cương', 'Đỗ', '064874562135', 19, 'Male', 'OCB', '0452361584587456'),
-('Danh', 'Mai', '062457835256', 20, 'Male', 'MB Bank', '014585552152154'),
-('Long', 'Võ', '055421445554', 19, 'Male', 'TP Bank', '52445544545454'),
-('Phúc', 'Huỳnh', '024587654215', 20, 'Male', 'Vietcombank', '014235687452'),
-('Quân', 'Cao', '024785651258', 20, 'Male', 'Vietinbank', '564645644646');
+('Cương', 'Đỗ', '064874562135', 19, 'Male', 'Accountant', 'OCB', '0452361584587456'),
+('Danh', 'Mai', '062457835256', 20, 'Male', 'Maintenance', 'MB Bank', '014585552152154'),
+('Long', 'Võ', '055421445554', 19, 'Male', 'Security', 'TP Bank', '52445544545454'),
+('Phúc', 'Huỳnh', '024587654215', 20, 'Male', 'Cashier', 'Vietcombank', '014235687452'),
+('Quân', 'Cao', '024785651258', 20, 'Male', 'Server', 'Vietinbank', '564645644646');
 
 -- Insert values into the `staff_email` table
 INSERT INTO `staff_email` (`staff_id`, `email`)
@@ -73,22 +73,27 @@ VALUES
 -- Insert values into the `transaction` table
 INSERT INTO `transaction` (`amount`, `account_id`, `content`, `status`, `invoice_id`)
 VALUES
-(50, 1, 'Transaction 1 Content', 'Recharge', NULL),
-(30, 1, 'Transaction 2 Content', 'Payment', 1),
-(40, 2, 'Transaction 3 Content', 'Recharge', NULL),
-(25, 2, 'Transaction 4 Content', 'Payment', 3);
+(500000, 1, 'Nạp tiềm cho tài khoản', 'Recharge', NULL),
+(300000, 2, 'Nạp tiềm cho tài khoản', 'Recharge', NULL),
+(400000, 3, 'Nạp tiền cho tài khoản', 'Recharge', NULL),
+(600000, 4, 'Nạp tiền cho tài khoản', 'Recharge', NULL),
+(10000, 1, 'Tiền thưởng giới thiệu', 'Recharge', NULL),
+(10000, 4, 'Tiền thưởng giới thiệu', 'Recharge', NULL),
+(10000, 3, 'Tiền thưởng giới thiệu', 'Recharge', NULL),
+(10000, 7, 'Tiền thưởng giới thiệu', 'Recharge', NULL),
+(333000, 1, 'Thanh toán hóa đơn', 'Payment', 1),
+(58500, 2, 'Thanh toán hóa đơn', 'Payment', 2),
+(162000, 3, 'Thanh toán hóa đơn', 'Payment', 3),
+(297000, 4, 'Thanh toán hóa đơn', 'Payment', 4);
+
 
 -- Insert values into the `invoice` table
-INSERT INTO `invoice` (`payment_status`, `staff_id`, `customer_id`)
+INSERT INTO `invoice` (`payment_status`, `total_order_value`, `staff_id`, `customer_id`)
 VALUES
-('Paid', 1, 1),
-('Unpaid', 2, 2),
-('Paid', 3, 3),
-('Paid', 4, 4),
-('Paid', 1, 5),
-('Paid', 1, 6),
-('Paid', 1, 7),
-('Paid', 1, 8);
+('Paid', 333000, 4, 1),
+('Paid', 58500, 4, 2),
+('Paid', 162000, 4, 3),
+('Paid', 297000, 4, 4);
 
 INSERT INTO `invoice` (`payment_status`, `customer_id`)
 VALUES
@@ -104,23 +109,31 @@ VALUES
 -- Insert values into the `invoice_product` table
 INSERT INTO `invoice_product` (`invoice_id`, `product_id`, `price`, `quantity`)
 VALUES
-(2, 1, 20.5, 2),
-(2, 2, 30.0, 1),
-(4, 3, 25.0, 3),
-(4, 4, 35.0, 1);
+(1, 2, 30000, 1),
+(1, 4, 30000, 2),
+(1, 7, 10000, 1),
+(2, 1, 15000, 1),
+(2, 5, 30000, 3),
+(2, 7, 20000, 2),
+(3, 3, 50000, 2),
+(3, 5, 10000, 1),
+(3, 8, 40000, 2),
+(4, 3, 50000, 2),
+(4, 6, 30000, 3),
+(4, 9, 50000, 1);
 
 -- Insert values into the `product` table
 INSERT INTO `product` (`description`, `name`, `category`, `price`, `item_sold`)
 VALUES
-('Mỳ tôm hai trứng', 'Mỳ tôm', 'Thức ăn', 15000, 25),
-('Cơm tấm sườn bì chả', 'Cơm tấm', 'Thức ăn', 30000, 10),
-('Mỳ xào thịt bò rau muống', 'Mỳ xào', 'Thức ăn', 25000, 17),
-('Redbull ngon hết xảy', 'Redbull', 'Đồ uống', 15000, 25),
-('Sting ngon hết xảy', 'Sting', 'Đồ uống', 10000, 41),
-('Pepsi ngon hết xảy', 'Pepsi', 'Đồ uống', 10000, 30),
-('Thẻ nạp tiền tài khoản Garena mệnh giá 10000đ', 'Thẻ Garena 10000đ', 'Thẻ nạp', 10000, 15),
-('Thẻ nạp tiền tài khoản Garena mệnh giá 20000đ', 'Thẻ Garena 20000đ', 'Thẻ nạp', 20000, 10),
-('Thẻ nạp tiền tài khoản Garena mệnh giá 50000đ', 'Thẻ Garena 50000đ', 'Thẻ nạp', 50000, 7);
+('Mỳ tôm hai trứng', 'Mỳ tôm', 'Thức ăn', 15000, 1),
+('Cơm tấm sườn bì chả', 'Cơm tấm', 'Thức ăn', 30000, 1),
+('Mỳ xào thịt bò rau muống', 'Mỳ xào', 'Thức ăn', 25000, 4),
+('Redbull ngon hết xảy', 'Redbull', 'Đồ uống', 15000, 2),
+('Sting ngon hết xảy', 'Sting', 'Đồ uống', 10000, 4),
+('Pepsi ngon hết xảy', 'Pepsi', 'Đồ uống', 10000, 3),
+('Thẻ nạp tiền tài khoản Garena mệnh giá 10000đ', 'Thẻ Garena 10000đ', 'Thẻ nạp', 10000, 3),
+('Thẻ nạp tiền tài khoản Garena mệnh giá 20000đ', 'Thẻ Garena 20000đ', 'Thẻ nạp', 20000, 2),
+('Thẻ nạp tiền tài khoản Garena mệnh giá 50000đ', 'Thẻ Garena 50000đ', 'Thẻ nạp', 50000, 1);
 
 -- Insert values into the `product_image` table
 INSERT INTO `product_image` (`product_id`, `url`, `title`)
@@ -133,6 +146,7 @@ VALUES
 (3, 'https://mycloud.com/products/thucan/myxao/1.jpg', 'Mỳ xào 1'),
 (3, 'https://mycloud.com/products/thucan/myxao/1.jpg', 'Mỳ xào 2'),
 (4, 'https://mycloud.com/products/douong/redbull/1.jpg', 'Redbull 1'),
+(4, 'https://mycloud.com/products/douong/redbull/2.jpg', 'Redbull 2'),
 (5, 'https://mycloud.com/products/douong/sting/1.jpg', 'Sting 1'),
 (6, 'https://mycloud.com/products/douong/pepsi/1.jpg', 'Pepsi 1'),
 (7, 'https://mycloud.com/products/thenap/thegarena/10000/1.jpg', 'Thẻ Garena 10000 1'),
@@ -146,7 +160,7 @@ VALUES
 ('Normal', 1, 'Phòng thường 1', 8000, 5, NULL, NULL),
 ('Normal', 2, 'Phòng thường 2', 8000, 5, NULL, NULL),
 ('Special', 1, 'Phòng đặc biệt 1', 20000, 5, NULL, NULL),
-('Smoking', 1, 'Phòng hút thuốc 1', 5000, 5, NULL, NULL),
+('Smoking', 1, 'Phòng hút thuốc 1', 10000, 5, NULL, NULL),
 ('Couple', 1, 'Phòng đôi 1', NULL, NULL, 'Available', 100000),
 ('Couple', 2, 'Phòng đôi 2', NULL, NULL, 'Available', 100000),
 ('Comp', 1, 'Phòng thi đấu 1', NULL, NULL, 'Available', 200000),
@@ -155,10 +169,7 @@ VALUES
 -- Insert values into the `room_invoice` table
 INSERT INTO `room_invoice` (`room_type`, `room_order`, `invoice_id`, `start_time`, `end_time`)
 VALUES
-('Couple', 1, 5, '2023-02-01 10:00:00', '2023-02-01 23:00:00'),
-('Couple', 2, 6, '2023-02-02 10:00:00', '2023-02-02 23:00:00'),
-('Comp', 1, 7, '2023-03-01 00:00:00', '2023-03-03 00:00:00'),
-('Comp', 2, 8, '2023-03-01 00:00:00', '2023-03-05 00:00:00');
+('Couple', 1, 1, '2023-12-14 20:00:00', '2023-12-14 23:00:00');
 
 -- Insert values into the `slot` table
 INSERT INTO `slot` (`room_type`, `room_order`, `slot_order`)
@@ -175,73 +186,403 @@ VALUES
 -- Insert values into the `slot_invoice` table
 INSERT INTO `slot_invoice` (`room_type`, `room_order`, `slot_order`, `invoice_id`, `start_time`, `end_time`)
 VALUES
-('Normal', 1, 1, 1, '2023-02-01 07:00:00', '2023-02-01 18:00:00'),
-('Normal', 1, 4, 2, '2023-02-01 08:00:00', '2023-02-01 18:00:00'),
-('Special', 1, 3, 3, '2023-03-01 09:00:00', '2023-03-01 18:00:00'),
-('Smoking', 1, 2, 4, '2023-04-01 10:00:00', '2023-04-01 18:00:00');
+('Normal', 1, 1, 3, '2023-12-14 07:00:00', '2023-12-14 17:00:00'),
+('Special', 2, 2, 4, '2023-12-14 08:00:00', '2023-12-14 18:00:00');
 
 -- Insert values into the `device` table
 INSERT INTO `device` (`room_type`, `room_order`, `slot_order`, `device_order`, `name`, `type`, `start_date`, `last_time_maintain`, `expire_time`)
 VALUES
+-- Slot 1 --- Phòng 1
 ('Normal', 1, 1, 1, 'Máy tính 1 - P1', 'computer', '2023-01-01', '2023-05-01', '2026-01-01'),
-('Normal', 1, 1, 2, 'Tai nghe 1 - P1', 'headphone', '2023-01-01', '2023-01-01', '2026-01-01'),
-('Normal', 1, 1, 3, 'Bàn phím 1 - P1', 'keyboard', '2023-01-01', '2023-01-01', '2026-01-01'),
-('Normal', 1, 2, 1, 'Máy tính 2 - P1', 'computer', '2023-01-01', '2023-05-02', '2026-01-01'),
-('Normal', 1, 3, 1, 'Máy tính 3 - P1', 'computer', '2023-01-01', '2023-05-03', '2026-01-01'),
-('Normal', 1, 4, 1, 'Máy tính 4 - P1', 'computer', '2023-01-01', '2023-05-04', '2026-01-01'),
-('Normal', 1, 5, 1, 'Máy tính 5 - P1', 'computer', '2023-01-01', '2023-01-01', '2026-01-01'),
-('Normal', 2, 1, 1, 'Máy tính 1 - P2', 'computer', '2023-01-01', '2023-01-01', '2026-01-01'),
-('Normal', 2, 2, 1, 'Máy tính 2 - P2', 'computer', '2023-01-01', '2023-01-01', '2026-01-01'),
-('Normal', 2, 3, 1, 'Máy tính 3 - P2', 'computer', '2023-01-01', '2023-01-01', '2026-01-01'),
-('Normal', 2, 4, 1, 'Máy tính 4 - P2', 'computer', '2023-01-01', '2023-01-01', '2026-01-01'),
-('Normal', 2, 5, 1, 'Máy tính 5 - P2', 'computer', '2023-01-01', '2023-01-01', '2026-01-01'),
-('Special', 1, 1, 1, 'Máy tính 1 - Đặc biệt 1', 'computer', '2023-01-01', '2023-01-01', '2026-01-01'),
-('Special', 1, 2, 1, 'Máy tính 2 - Đặc biệt 1', 'computer', '2023-01-01', '2023-01-01', '2026-01-01'),
-('Special', 1, 3, 1, 'Máy tính 3 - Đặc biệt 1', 'computer', '2023-01-01', '2023-01-01', '2026-01-01'),
-('Special', 1, 4, 1, 'Máy tính 4 - Đặc biệt 1', 'computer', '2023-01-01', '2023-01-01', '2026-01-01'),
-('Special', 1, 5, 1, 'Máy tính 5 - Đặc biệt 1', 'computer', '2023-01-01', '2023-01-01', '2026-01-01'),
-('Smoking', 1, 1, 1, 'Máy tính 1 - Hút Thuốc 1', 'computer', '2023-01-01', '2023-01-01', '2026-01-01'),
-('Smoking', 1, 2, 1, 'Máy tính 2 - Hút Thuốc 1', 'computer', '2023-01-01', '2023-01-01', '2026-01-01'),
-('Smoking', 1, 3, 1, 'Máy tính 3 - Hút Thuốc 1', 'computer', '2023-01-01', '2023-01-01', '2026-01-01'),
-('Smoking', 1, 4, 1, 'Máy tính 4 - Hút Thuốc 1', 'computer', '2023-01-01', '2023-01-01', '2026-01-01'),
-('Smoking', 1, 5, 1, 'Máy tính 5 - Hút Thuốc 1', 'computer', '2023-01-01', '2023-01-01', '2026-01-01'),
-('Couple', 1, 1, 1, 'Máy tính 1 - Đôi 1', 'computer', '2023-01-01', '2023-01-01', '2026-01-01'),
-('Couple', 1, 2, 1, 'Máy tính 2 - Đôi 1', 'computer', '2023-01-01', '2023-01-01', '2026-01-01'),
-('Couple', 2, 1, 1, 'Máy tính 1 - Đôi 2', 'computer', '2023-01-01', '2023-01-01', '2026-01-01'),
-('Couple', 2, 2, 1, 'Máy tính 2 - Đôi 2', 'computer', '2023-01-01', '2023-01-01', '2026-01-01'),
-('Comp', 1, 1, 1, 'Máy tính 1 - Thi đấu 1', 'computer', '2023-01-01', '2023-01-01', '2026-01-01'),
-('Comp', 1, 2, 1, 'Máy tính 2 - Thi đấu 1', 'computer', '2023-01-01', '2023-01-01', '2026-01-01'),
-('Comp', 1, 3, 1, 'Máy tính 3 - Thi đấu 1', 'computer', '2023-01-01', '2023-01-01', '2026-01-01'),
-('Comp', 1, 4, 1, 'Máy tính 4 - Thi đấu 1', 'computer', '2023-01-01', '2023-01-01', '2026-01-01'),
-('Comp', 1, 5, 1, 'Máy tính 5 - Thi đấu 1', 'computer', '2023-01-01', '2023-01-01', '2026-01-01'),
-('Comp', 2, 1, 1, 'Máy tính 1 - Thi đấu 2', 'computer', '2023-01-01', '2023-01-01', '2026-01-01'),
-('Comp', 2, 2, 1, 'Máy tính 2 - Thi đấu 2', 'computer', '2023-01-01', '2023-01-01', '2026-01-01'),
-('Comp', 2, 3, 1, 'Máy tính 3 - Thi đấu 2', 'computer', '2023-01-01', '2023-01-01', '2026-01-01'),
-('Comp', 2, 4, 1, 'Máy tính 4 - Thi đấu 2', 'computer', '2023-01-01', '2023-01-01', '2026-01-01'),
-('Comp', 2, 5, 1, 'Máy tính 5 - Thi đấu 2', 'computer', '2023-01-01', '2023-01-01', '2026-01-01');
+('Normal', 1, 1, 2, 'Màn hình 1 - P1', 'monitor', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Normal', 1, 1, 3, 'Bàn phím 1 - P1', 'keyboard', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Normal', 1, 1, 4, 'Chuột 1 - P1', 'mouse', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Normal', 1, 1, 5, 'Tai nghe 1 - P1', 'headphone', '2023-01-01', '2023-05-01', '2026-01-01'),
+-- Slot 2 --- Phòng 1
+('Normal', 1, 2, 1, 'Máy tính 2 - P1', 'computer', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Normal', 1, 2, 2, 'Màn hình 2 - P1', 'monitor', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Normal', 1, 2, 3, 'Bàn phím 2 - P1', 'keyboard', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Normal', 1, 2, 4, 'Chuột 2 - P1', 'mouse', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Normal', 1, 2, 5, 'Tai nghe 2 - P1', 'headphone', '2023-01-01', '2023-05-01', '2026-01-01'),
+-- Slot 3 --- Phòng 1
+('Normal', 1, 3, 1, 'Máy tính 3 - P1', 'computer', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Normal', 1, 3, 2, 'Màn hình 3 - P1', 'monitor', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Normal', 1, 3, 3, 'Bàn phím 3 - P1', 'keyboard', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Normal', 1, 3, 4, 'Chuột 3 - P1', 'mouse', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Normal', 1, 3, 5, 'Tai nghe 3 - P1', 'headphone', '2023-01-01', '2023-05-01', '2026-01-01'),
+-- Slot 4 --- Phòng 1
+('Normal', 1, 4, 1, 'Máy tính 4 - P1', 'computer', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Normal', 1, 4, 2, 'Màn hình 4 - P1', 'monitor', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Normal', 1, 4, 3, 'Bàn phím 4 - P1', 'keyboard', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Normal', 1, 4, 4, 'Chuột 4 - P1', 'mouse', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Normal', 1, 4, 5, 'Tai nghe 4 - P1', 'headphone', '2023-01-01', '2023-05-01', '2026-01-01'),
+-- Slot 5 --- Phòng 1
+('Normal', 1, 5, 1, 'Máy tính 5 - P1', 'computer', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Normal', 1, 5, 2, 'Màn hình 5 - P1', 'monitor', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Normal', 1, 5, 3, 'Bàn phím 5 - P1', 'keyboard', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Normal', 1, 5, 4, 'Chuột 5 - P1', 'mouse', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Normal', 1, 5, 5, 'Tai nghe 5 - P1', 'headphone', '2023-01-01', '2023-05-01', '2026-01-01'),
+-- Slot 1 --- Phòng 2
+('Normal', 2, 1, 1, 'Máy tính 1 - P2', 'computer', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Normal', 2, 1, 2, 'Màn hình 1 - P2', 'monitor', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Normal', 2, 1, 3, 'Bàn phím 1 - P2', 'keyboard', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Normal', 2, 1, 4, 'Chuột 1 - P2', 'mouse', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Normal', 2, 1, 5, 'Tai nghe 1 - P2', 'headphone', '2023-01-01', '2023-05-01', '2026-01-01'),
+-- Slot 2 --- Phòng 2
+('Normal', 2, 2, 1, 'Máy tính 2 - P2', 'computer', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Normal', 2, 2, 2, 'Màn hình 2 - P2', 'monitor', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Normal', 2, 2, 3, 'Bàn phím 2 - P2', 'keyboard', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Normal', 2, 2, 4, 'Chuột 2 - P2', 'mouse', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Normal', 2, 2, 5, 'Tai nghe 2 - P2', 'headphone', '2023-01-01', '2023-05-01', '2026-01-01'),
+-- Slot 3 --- Phòng 2
+('Normal', 2, 3, 1, 'Máy tính 3 - P2', 'computer', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Normal', 2, 3, 2, 'Màn hình 3 - P2', 'monitor', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Normal', 2, 3, 3, 'Bàn phím 3 - P2', 'keyboard', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Normal', 2, 3, 4, 'Chuột 3 - P2', 'mouse', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Normal', 2, 3, 5, 'Tai nghe 3 - P2', 'headphone', '2023-01-01', '2023-05-01', '2026-01-01'),
+-- Slot 4 --- Phòng 2
+('Normal', 2, 4, 1, 'Máy tính 4 - P2', 'computer', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Normal', 2, 4, 2, 'Màn hình 4 - P2', 'monitor', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Normal', 2, 4, 3, 'Bàn phím 4 - P2', 'keyboard', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Normal', 2, 4, 4, 'Chuột 4 - P2', 'mouse', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Normal', 2, 4, 5, 'Tai nghe 4 - P2', 'headphone', '2023-01-01', '2023-05-01', '2026-01-01'),
+-- Slot 5 --- Phòng 2
+('Normal', 2, 5, 1, 'Máy tính 5 - P2', 'computer', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Normal', 2, 5, 2, 'Màn hình 5 - P2', 'monitor', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Normal', 2, 5, 3, 'Bàn phím 5 - P2', 'keyboard', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Normal', 2, 5, 4, 'Chuột 5 - P2', 'mouse', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Normal', 2, 5, 5, 'Tai nghe 5 - P2', 'headphone', '2023-01-01', '2023-05-01', '2026-01-01'),
+-- Slot 1 --- Phòng Đặc biệt 1
+('Special', 1, 1, 1, 'Máy tính 1 - Đặc biệt 1', 'computer', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Special', 1, 1, 2, 'Màn hình 1 - Đặc biệt 1', 'monitor', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Special', 1, 1, 3, 'Bàn phím 1 - Đặc biệt 1', 'keyboard', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Special', 1, 1, 4, 'Chuột 1 - Đặc biệt 1', 'mouse', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Special', 1, 1, 5, 'Tai nghe 1 - Đặc biệt 1', 'headphone', '2023-01-01', '2023-05-01', '2026-01-01'),
+-- Slot 2 --- Phòng Đặc biệt 1
+('Special', 1, 2, 1, 'Máy tính 2 - Đặc biệt 1', 'computer', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Special', 1, 2, 2, 'Màn hình 2 - Đặc biệt 1', 'monitor', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Special', 1, 2, 3, 'Bàn phím 2 - Đặc biệt 1', 'keyboard', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Special', 1, 2, 4, 'Chuột 2 - Đặc biệt 1', 'mouse', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Special', 1, 2, 5, 'Tai nghe 2 - Đặc biệt 1', 'headphone', '2023-01-01', '2023-05-01', '2026-01-01'),
+-- Slot 3 --- Phòng Đặc biệt 1
+('Special', 1, 3, 1, 'Máy tính 3 - Đặc biệt 1', 'computer', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Special', 1, 3, 2, 'Màn hình 3 - Đặc biệt 1', 'monitor', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Special', 1, 3, 3, 'Bàn phím 3 - Đặc biệt 1', 'keyboard', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Special', 1, 3, 4, 'Chuột 3 - Đặc biệt 1', 'mouse', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Special', 1, 3, 5, 'Tai nghe 3 - Đặc biệt 1', 'headphone', '2023-01-01', '2023-05-01', '2026-01-01'),
+-- Slot 4 --- Phòng Đặc biệt 1
+('Special', 1, 4, 1, 'Máy tính 4 - Đặc biệt 1', 'computer', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Special', 1, 4, 2, 'Màn hình 4 - Đặc biệt 1', 'monitor', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Special', 1, 4, 3, 'Bàn phím 4 - Đặc biệt 1', 'keyboard', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Special', 1, 4, 4, 'Chuột 4 - Đặc biệt 1', 'mouse', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Special', 1, 4, 5, 'Tai nghe 4 - Đặc biệt 1', 'headphone', '2023-01-01', '2023-05-01', '2026-01-01'),
+-- Slot 5 --- Phòng Đặc biệt 1
+('Special', 1, 5, 1, 'Máy tính 5 - Đặc biệt 1', 'computer', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Special', 1, 5, 2, 'Màn hình 5 - Đặc biệt 1', 'monitor', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Special', 1, 5, 3, 'Bàn phím 5 - Đặc biệt 1', 'keyboard', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Special', 1, 5, 4, 'Chuột 5 - Đặc biệt 1', 'mouse', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Special', 1, 5, 5, 'Tai nghe 5 - Đặc biệt 1', 'headphone', '2023-01-01', '2023-05-01', '2026-01-01'),
+-- Slot 1 --- Phòng Hút thuốc 1
+('Smoking', 1, 1, 1, 'Máy tính 1 - Hút thuốc 1', 'computer', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Smoking', 1, 1, 2, 'Màn hình 1 - Hút thuốc 1', 'monitor', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Smoking', 1, 1, 3, 'Bàn phím 1 - Hút thuốc 1', 'keyboard', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Smoking', 1, 1, 4, 'Chuột 1 - Hút thuốc 1', 'mouse', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Smoking', 1, 1, 5, 'Tai nghe 1 - Hút thuốc 1', 'headphone', '2023-01-01', '2023-05-01', '2026-01-01'),
+-- Slot 2 --- Phòng Hút thuốc 1
+('Smoking', 1, 2, 1, 'Máy tính 2 - Hút thuốc 1', 'computer', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Smoking', 1, 2, 2, 'Màn hình 2 - Hút thuốc 1', 'monitor', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Smoking', 1, 2, 3, 'Bàn phím 2 - Hút thuốc 1', 'keyboard', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Smoking', 1, 2, 4, 'Chuột 2 - Hút thuốc 1', 'mouse', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Smoking', 1, 2, 5, 'Tai nghe 2 - Hút thuốc 1', 'headphone', '2023-01-01', '2023-05-01', '2026-01-01'),
+-- Slot 3 --- Phòng Hút thuốc 1
+('Smoking', 1, 3, 1, 'Máy tính 3 - Hút thuốc 1', 'computer', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Smoking', 1, 3, 2, 'Màn hình 3 - Hút thuốc 1', 'monitor', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Smoking', 1, 3, 3, 'Bàn phím 3 - Hút thuốc 1', 'keyboard', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Smoking', 1, 3, 4, 'Chuột 3 - Hút thuốc 1', 'mouse', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Smoking', 1, 3, 5, 'Tai nghe 3 - Hút thuốc 1', 'headphone', '2023-01-01', '2023-05-01', '2026-01-01'),
+-- Slot 4 --- Phòng Hút thuốc 1
+('Smoking', 1, 4, 1, 'Máy tính 4 - Hút thuốc 1', 'computer', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Smoking', 1, 4, 2, 'Màn hình 4 - Hút thuốc 1', 'monitor', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Smoking', 1, 4, 3, 'Bàn phím 4 - Hút thuốc 1', 'keyboard', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Smoking', 1, 4, 4, 'Chuột 4 - Hút thuốc 1', 'mouse', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Smoking', 1, 4, 5, 'Tai nghe 4 - Hút thuốc 1', 'headphone', '2023-01-01', '2023-05-01', '2026-01-01'),
+-- Slot 5 --- Phòng Hút thuốc 1
+('Smoking', 1, 5, 1, 'Máy tính 5 - Hút thuốc 1', 'computer', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Smoking', 1, 5, 2, 'Màn hình 5 - Hút thuốc 1', 'monitor', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Smoking', 1, 5, 3, 'Bàn phím 5 - Hút thuốc 1', 'keyboard', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Smoking', 1, 5, 4, 'Chuột 5 - Hút thuốc 1', 'mouse', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Smoking', 1, 5, 5, 'Tai nghe 5 - Hút thuốc 1', 'headphone', '2023-01-01', '2023-05-01', '2026-01-01'),
+-- Slot 1 --- Phòng đôi 1
+('Couple', 1, 1, 1, 'Máy tính 1 - Phòng đôi 1', 'computer', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Couple', 1, 1, 2, 'Màn hình 1 - Phòng đôi 1', 'monitor', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Couple', 1, 1, 3, 'Bàn phím 1 - Phòng đôi 1', 'keyboard', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Couple', 1, 1, 4, 'Chuột 1 - Phòng đôi 1', 'mouse', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Couple', 1, 1, 5, 'Tai nghe 1 - Phòng đôi 1', 'headphone', '2023-01-01', '2023-05-01', '2026-01-01'),
+-- Slot 2 --- Phòng đôi 1
+('Couple', 1, 2, 1, 'Máy tính 2 - Phòng đôi 1', 'computer', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Couple', 1, 2, 2, 'Màn hình 2 - Phòng đôi 1', 'monitor', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Couple', 1, 2, 3, 'Bàn phím 2 - Phòng đôi 1', 'keyboard', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Couple', 1, 2, 4, 'Chuột 2 - Phòng đôi 1', 'mouse', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Couple', 1, 2, 5, 'Tai nghe 2 - Phòng đôi 1', 'headphone', '2023-01-01', '2023-05-01', '2026-01-01'),
+-- Slot 1 --- Phòng đôi 2
+('Couple', 2, 1, 1, 'Máy tính 1 - Phòng đôi 2', 'computer', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Couple', 2, 1, 2, 'Màn hình 1 - Phòng đôi 2', 'monitor', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Couple', 2, 1, 3, 'Bàn phím 1 - Phòng đôi 2', 'keyboard', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Couple', 2, 1, 4, 'Chuột 1 - Phòng đôi 2', 'mouse', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Couple', 2, 1, 5, 'Tai nghe 1 - Phòng đôi 2', 'headphone', '2023-01-01', '2023-05-01', '2026-01-01'),
+-- Slot 2 --- Phòng đôi 2
+('Couple', 2, 2, 1, 'Máy tính 2 - Phòng đôi 2', 'computer', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Couple', 2, 2, 2, 'Màn hình 2 - Phòng đôi 2', 'monitor', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Couple', 2, 2, 3, 'Bàn phím 2 - Phòng đôi 2', 'keyboard', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Couple', 2, 2, 4, 'Chuột 2 - Phòng đôi 2', 'mouse', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Couple', 2, 2, 5, 'Tai nghe 2 - Phòng đôi 2', 'headphone', '2023-01-01', '2023-05-01', '2026-01-01'),
+-- Slot 1 --- Phòng Thi đấu 1
+('Comp', 1, 1, 1, 'Máy tính 1 - Thi đấu 1', 'computer', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Comp', 1, 1, 2, 'Màn hình 1 - Thi đấu 1', 'monitor', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Comp', 1, 1, 3, 'Bàn phím 1 - Thi đấu 1', 'keyboard', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Comp', 1, 1, 4, 'Chuột 1 - Thi đấu 1', 'mouse', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Comp', 1, 1, 5, 'Tai nghe 1 - Thi đấu 1', 'headphone', '2023-01-01', '2023-05-01', '2026-01-01'),
+-- Slot 2 --- Phòng Thi đấu 1
+('Comp', 1, 2, 1, 'Máy tính 2 - Thi đấu 1', 'computer', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Comp', 1, 2, 2, 'Màn hình 2 - Thi đấu 1', 'monitor', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Comp', 1, 2, 3, 'Bàn phím 2 - Thi đấu 1', 'keyboard', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Comp', 1, 2, 4, 'Chuột 2 - Thi đấu 1', 'mouse', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Comp', 1, 2, 5, 'Tai nghe 2 - Thi đấu 1', 'headphone', '2023-01-01', '2023-05-01', '2026-01-01'),
+-- Slot 3 --- Phòng Thi đấu 1
+('Comp', 1, 3, 1, 'Máy tính 3 - Thi đấu 1', 'computer', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Comp', 1, 3, 2, 'Màn hình 3 - Thi đấu 1', 'monitor', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Comp', 1, 3, 3, 'Bàn phím 3 - Thi đấu 1', 'keyboard', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Comp', 1, 3, 4, 'Chuột 3 - Thi đấu 1', 'mouse', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Comp', 1, 3, 5, 'Tai nghe 3 - Thi đấu 1', 'headphone', '2023-01-01', '2023-05-01', '2026-01-01'),
+-- Slot 4 --- Phòng Thi đấu 1
+('Comp', 1, 4, 1, 'Máy tính 4 - Thi đấu 1', 'computer', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Comp', 1, 4, 2, 'Màn hình 4 - Thi đấu 1', 'monitor', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Comp', 1, 4, 3, 'Bàn phím 4 - Thi đấu 1', 'keyboard', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Comp', 1, 4, 4, 'Chuột 4 - Thi đấu 1', 'mouse', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Comp', 1, 4, 5, 'Tai nghe 4 - Thi đấu 1', 'headphone', '2023-01-01', '2023-05-01', '2026-01-01'),
+-- Slot 5 --- Phòng Thi đấu 1
+('Comp', 1, 5, 1, 'Máy tính 5 - Thi đấu 1', 'computer', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Comp', 1, 5, 2, 'Màn hình 5 - Thi đấu 1', 'monitor', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Comp', 1, 5, 3, 'Bàn phím 5 - Thi đấu 1', 'keyboard', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Comp', 1, 5, 4, 'Chuột 5 - Thi đấu 1', 'mouse', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Comp', 1, 5, 5, 'Tai nghe 5 - Thi đấu 1', 'headphone', '2023-01-01', '2023-05-01', '2026-01-01'),
+-- Slot 1 --- Phòng Thi đấu 2
+('Comp', 2, 1, 1, 'Máy tính 1 - Thi đấu 2', 'computer', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Comp', 2, 1, 2, 'Màn hình 1 - Thi đấu 2', 'monitor', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Comp', 2, 1, 3, 'Bàn phím 1 - Thi đấu 2', 'keyboard', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Comp', 2, 1, 4, 'Chuột 1 - Thi đấu 2', 'mouse', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Comp', 2, 1, 5, 'Tai nghe 1 - Thi đấu 2', 'headphone', '2023-01-01', '2023-05-01', '2026-01-01'),
+-- Slot 2 --- Phòng Thi đấu 2
+('Comp', 2, 2, 1, 'Máy tính 2 - Thi đấu 2', 'computer', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Comp', 2, 2, 2, 'Màn hình 2 - Thi đấu 2', 'monitor', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Comp', 2, 2, 3, 'Bàn phím 2 - Thi đấu 2', 'keyboard', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Comp', 2, 2, 4, 'Chuột 2 - Thi đấu 2', 'mouse', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Comp', 2, 2, 5, 'Tai nghe 2 - Thi đấu 2', 'headphone', '2023-01-01', '2023-05-01', '2026-01-01'),
+-- Slot 3 --- Phòng Thi đấu 2
+('Comp', 2, 3, 1, 'Máy tính 3 - Thi đấu 2', 'computer', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Comp', 2, 3, 2, 'Màn hình 3 - Thi đấu 2', 'monitor', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Comp', 2, 3, 3, 'Bàn phím 3 - Thi đấu 2', 'keyboard', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Comp', 2, 3, 4, 'Chuột 3 - Thi đấu 2', 'mouse', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Comp', 2, 3, 5, 'Tai nghe 3 - Thi đấu 2', 'headphone', '2023-01-01', '2023-05-01', '2026-01-01'),
+-- Slot 4 --- Phòng Thi đấu 2
+('Comp', 2, 4, 1, 'Máy tính 4 - Thi đấu 2', 'computer', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Comp', 2, 4, 2, 'Màn hình 4 - Thi đấu 2', 'monitor', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Comp', 2, 4, 3, 'Bàn phím 4 - Thi đấu 2', 'keyboard', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Comp', 2, 4, 4, 'Chuột 4 - Thi đấu 2', 'mouse', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Comp', 2, 4, 5, 'Tai nghe 4 - Thi đấu 2', 'headphone', '2023-01-01', '2023-05-01', '2026-01-01'),
+-- Slot 5 --- Phòng Thi đấu 2
+('Comp', 2, 5, 1, 'Máy tính 5 - Thi đấu 2', 'computer', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Comp', 2, 5, 2, 'Màn hình 5 - Thi đấu 2', 'monitor', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Comp', 2, 5, 3, 'Bàn phím 5 - Thi đấu 2', 'keyboard', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Comp', 2, 5, 4, 'Chuột 5 - Thi đấu 2', 'mouse', '2023-01-01', '2023-05-01', '2026-01-01'),
+('Comp', 2, 5, 5, 'Tai nghe 5 - Thi đấu 2', 'headphone', '2023-01-01', '2023-05-01', '2026-01-01');
 
 -- Insert values into the `maintain_staff_device` table
 INSERT INTO `maintain_staff_device` (`staff_id`, `room_type`, `room_order`, `slot_order`, `device_order`, `time`)
 VALUES
 (5, 'Normal', 1, 1, 1, '2023-05-01'),
-(5, 'Normal', 1, 2, 1, '2023-05-02'),
-(5, 'Normal', 1, 3, 1, '2023-05-03'),
-(5, 'Normal', 1, 4, 1, '2023-05-04');
+(5, 'Normal', 1, 1, 2, '2023-05-01'),
+(5, 'Normal', 1, 1, 3, '2023-05-01'),
+(5, 'Normal', 1, 1, 4, '2023-05-01'),
+(5, 'Normal', 1, 1, 5, '2023-05-01'),
+(5, 'Normal', 1, 2, 1, '2023-05-01'),
+(5, 'Normal', 1, 2, 2, '2023-05-01'),
+(5, 'Normal', 1, 2, 3, '2023-05-01'),
+(5, 'Normal', 1, 2, 4, '2023-05-01'),
+(5, 'Normal', 1, 2, 5, '2023-05-01'),
+(5, 'Normal', 1, 3, 1, '2023-05-01'),
+(5, 'Normal', 1, 3, 2, '2023-05-01'),
+(5, 'Normal', 1, 3, 3, '2023-05-01'),
+(5, 'Normal', 1, 3, 4, '2023-05-01'),
+(5, 'Normal', 1, 3, 5, '2023-05-01'),
+(5, 'Normal', 1, 4, 1, '2023-05-01'),
+(5, 'Normal', 1, 4, 2, '2023-05-01'),
+(5, 'Normal', 1, 4, 3, '2023-05-01'),
+(5, 'Normal', 1, 4, 4, '2023-05-01'),
+(5, 'Normal', 1, 4, 5, '2023-05-01'),
+(5, 'Normal', 1, 5, 1, '2023-05-01'),
+(5, 'Normal', 1, 5, 2, '2023-05-01'),
+(5, 'Normal', 1, 5, 3, '2023-05-01'),
+(5, 'Normal', 1, 5, 4, '2023-05-01'),
+(5, 'Normal', 1, 5, 5, '2023-05-01'),
+(5, 'Normal', 2, 1, 1, '2023-05-01'),
+(5, 'Normal', 2, 1, 2, '2023-05-01'),
+(5, 'Normal', 2, 1, 3, '2023-05-01'),
+(5, 'Normal', 2, 1, 4, '2023-05-01'),
+(5, 'Normal', 2, 1, 5, '2023-05-01'),
+(5, 'Normal', 2, 2, 1, '2023-05-01'),
+(5, 'Normal', 2, 2, 2, '2023-05-01'),
+(5, 'Normal', 2, 2, 3, '2023-05-01'),
+(5, 'Normal', 2, 2, 4, '2023-05-01'),
+(5, 'Normal', 2, 2, 5, '2023-05-01'),
+(5, 'Normal', 2, 3, 1, '2023-05-01'),
+(5, 'Normal', 2, 3, 2, '2023-05-01'),
+(5, 'Normal', 2, 3, 3, '2023-05-01'),
+(5, 'Normal', 2, 3, 4, '2023-05-01'),
+(5, 'Normal', 2, 3, 5, '2023-05-01'),
+(5, 'Normal', 2, 4, 1, '2023-05-01'),
+(5, 'Normal', 2, 4, 2, '2023-05-01'),
+(5, 'Normal', 2, 4, 3, '2023-05-01'),
+(5, 'Normal', 2, 4, 4, '2023-05-01'),
+(5, 'Normal', 2, 4, 5, '2023-05-01'),
+(5, 'Normal', 2, 5, 1, '2023-05-01'),
+(5, 'Normal', 2, 5, 2, '2023-05-01'),
+(5, 'Normal', 2, 5, 3, '2023-05-01'),
+(5, 'Normal', 2, 5, 4, '2023-05-01'),
+(5, 'Normal', 2, 5, 5, '2023-05-01'),
+(5, 'Comp', 1, 1, 1, '2023-05-01'),
+(5, 'Comp', 1, 1, 2, '2023-05-01'),
+(5, 'Comp', 1, 1, 3, '2023-05-01'),
+(5, 'Comp', 1, 1, 4, '2023-05-01'),
+(5, 'Comp', 1, 1, 5, '2023-05-01'),
+(5, 'Comp', 1, 2, 1, '2023-05-01'),
+(5, 'Comp', 1, 2, 2, '2023-05-01'),
+(5, 'Comp', 1, 2, 3, '2023-05-01'),
+(5, 'Comp', 1, 2, 4, '2023-05-01'),
+(5, 'Comp', 1, 2, 5, '2023-05-01'),
+(5, 'Comp', 1, 3, 1, '2023-05-01'),
+(5, 'Comp', 1, 3, 2, '2023-05-01'),
+(5, 'Comp', 1, 3, 3, '2023-05-01'),
+(5, 'Comp', 1, 3, 4, '2023-05-01'),
+(5, 'Comp', 1, 3, 5, '2023-05-01'),
+(5, 'Comp', 1, 4, 1, '2023-05-01'),
+(5, 'Comp', 1, 4, 2, '2023-05-01'),
+(5, 'Comp', 1, 4, 3, '2023-05-01'),
+(5, 'Comp', 1, 4, 4, '2023-05-01'),
+(5, 'Comp', 1, 4, 5, '2023-05-01'),
+(5, 'Comp', 1, 5, 1, '2023-05-01'),
+(5, 'Comp', 1, 5, 2, '2023-05-01'),
+(5, 'Comp', 1, 5, 3, '2023-05-01'),
+(5, 'Comp', 1, 5, 4, '2023-05-01'),
+(5, 'Comp', 1, 5, 5, '2023-05-01'),
+(5, 'Comp', 2, 1, 1, '2023-05-01'),
+(5, 'Comp', 2, 1, 2, '2023-05-01'),
+(5, 'Comp', 2, 1, 3, '2023-05-01'),
+(5, 'Comp', 2, 1, 4, '2023-05-01'),
+(5, 'Comp', 2, 1, 5, '2023-05-01'),
+(5, 'Comp', 2, 2, 1, '2023-05-01'),
+(5, 'Comp', 2, 2, 2, '2023-05-01'),
+(5, 'Comp', 2, 2, 3, '2023-05-01'),
+(5, 'Comp', 2, 2, 4, '2023-05-01'),
+(5, 'Comp', 2, 2, 5, '2023-05-01'),
+(5, 'Comp', 2, 3, 1, '2023-05-01'),
+(5, 'Comp', 2, 3, 2, '2023-05-01'),
+(5, 'Comp', 2, 3, 3, '2023-05-01'),
+(5, 'Comp', 2, 3, 4, '2023-05-01'),
+(5, 'Comp', 2, 3, 5, '2023-05-01'),
+(5, 'Comp', 2, 4, 1, '2023-05-01'),
+(5, 'Comp', 2, 4, 2, '2023-05-01'),
+(5, 'Comp', 2, 4, 3, '2023-05-01'),
+(5, 'Comp', 2, 4, 4, '2023-05-01'),
+(5, 'Comp', 2, 4, 5, '2023-05-01'),
+(5, 'Comp', 2, 5, 1, '2023-05-01'),
+(5, 'Comp', 2, 5, 2, '2023-05-01'),
+(5, 'Comp', 2, 5, 3, '2023-05-01'),
+(5, 'Comp', 2, 5, 4, '2023-05-01'),
+(5, 'Comp', 2, 5, 5, '2023-05-01'),
+(5, 'Special', 1, 1, 1, '2023-05-01'),
+(5, 'Special', 1, 1, 2, '2023-05-01'),
+(5, 'Special', 1, 1, 3, '2023-05-01'),
+(5, 'Special', 1, 1, 4, '2023-05-01'),
+(5, 'Special', 1, 1, 5, '2023-05-01'),
+(5, 'Special', 1, 2, 1, '2023-05-01'),
+(5, 'Special', 1, 2, 2, '2023-05-01'),
+(5, 'Special', 1, 2, 3, '2023-05-01'),
+(5, 'Special', 1, 2, 4, '2023-05-01'),
+(5, 'Special', 1, 2, 5, '2023-05-01'),
+(5, 'Special', 1, 3, 1, '2023-05-01'),
+(5, 'Special', 1, 3, 2, '2023-05-01'),
+(5, 'Special', 1, 3, 3, '2023-05-01'),
+(5, 'Special', 1, 3, 4, '2023-05-01'),
+(5, 'Special', 1, 3, 5, '2023-05-01'),
+(5, 'Special', 1, 4, 1, '2023-05-01'),
+(5, 'Special', 1, 4, 2, '2023-05-01'),
+(5, 'Special', 1, 4, 3, '2023-05-01'),
+(5, 'Special', 1, 4, 4, '2023-05-01'),
+(5, 'Special', 1, 4, 5, '2023-05-01'),
+(5, 'Special', 1, 5, 1, '2023-05-01'),
+(5, 'Special', 1, 5, 2, '2023-05-01'),
+(5, 'Special', 1, 5, 3, '2023-05-01'),
+(5, 'Special', 1, 5, 4, '2023-05-01'),
+(5, 'Special', 1, 5, 5, '2023-05-01'),
+(5, 'Smoking', 1, 1, 1, '2023-05-01'),
+(5, 'Smoking', 1, 1, 2, '2023-05-01'),
+(5, 'Smoking', 1, 1, 3, '2023-05-01'),
+(5, 'Smoking', 1, 1, 4, '2023-05-01'),
+(5, 'Smoking', 1, 1, 5, '2023-05-01'),
+(5, 'Smoking', 1, 2, 1, '2023-05-01'),
+(5, 'Smoking', 1, 2, 2, '2023-05-01'),
+(5, 'Smoking', 1, 2, 3, '2023-05-01'),
+(5, 'Smoking', 1, 2, 4, '2023-05-01'),
+(5, 'Smoking', 1, 2, 5, '2023-05-01'),
+(5, 'Smoking', 1, 3, 1, '2023-05-01'),
+(5, 'Smoking', 1, 3, 2, '2023-05-01'),
+(5, 'Smoking', 1, 3, 3, '2023-05-01'),
+(5, 'Smoking', 1, 3, 4, '2023-05-01'),
+(5, 'Smoking', 1, 3, 5, '2023-05-01'),
+(5, 'Smoking', 1, 4, 1, '2023-05-01'),
+(5, 'Smoking', 1, 4, 2, '2023-05-01'),
+(5, 'Smoking', 1, 4, 3, '2023-05-01'),
+(5, 'Smoking', 1, 4, 4, '2023-05-01'),
+(5, 'Smoking', 1, 4, 5, '2023-05-01'),
+(5, 'Smoking', 1, 5, 1, '2023-05-01'),
+(5, 'Smoking', 1, 5, 2, '2023-05-01'),
+(5, 'Smoking', 1, 5, 3, '2023-05-01'),
+(5, 'Smoking', 1, 5, 4, '2023-05-01'),
+(5, 'Smoking', 1, 5, 5, '2023-05-01'),
+(5, 'Couple', 1, 1, 1, '2023-05-01'),
+(5, 'Couple', 1, 1, 2, '2023-05-01'),
+(5, 'Couple', 1, 1, 3, '2023-05-01'),
+(5, 'Couple', 1, 1, 4, '2023-05-01'),
+(5, 'Couple', 1, 1, 5, '2023-05-01'),
+(5, 'Couple', 1, 2, 1, '2023-05-01'),
+(5, 'Couple', 1, 2, 2, '2023-05-01'),
+(5, 'Couple', 1, 2, 3, '2023-05-01'),
+(5, 'Couple', 1, 2, 4, '2023-05-01'),
+(5, 'Couple', 1, 2, 5, '2023-05-01'),
+(5, 'Couple', 2, 1, 1, '2023-05-01'),
+(5, 'Couple', 2, 1, 2, '2023-05-01'),
+(5, 'Couple', 2, 1, 3, '2023-05-01'),
+(5, 'Couple', 2, 1, 4, '2023-05-01'),
+(5, 'Couple', 2, 1, 5, '2023-05-01'),
+(5, 'Couple', 2, 2, 1, '2023-05-01'),
+(5, 'Couple', 2, 2, 2, '2023-05-01'),
+(5, 'Couple', 2, 2, 3, '2023-05-01'),
+(5, 'Couple', 2, 2, 4, '2023-05-01'),
+(5, 'Couple', 2, 2, 5, '2023-05-01');
+
 
 -- Insert values into the `discount_event` table
 INSERT INTO `discount_event` (`name`, `start_date`, `end_date`, `discount_percent`)
 VALUES
-('Giảm giá mừng khai trương', '2023-01-01', '2023-01-15', 10),
-('Discount Event 2', '2023-02-01', '2023-02-09', 15),
-('Discount Event 3', '2023-03-01', '2023-03-04', 20),
-('Discount Event 4', '2023-04-01', '2023-04-02', 15);
+('Giảm giá mừng khai trương', '2023-12-01 00:00:00', '2023-12-16 00:00:00', 10);
 
 -- Insert values into the `invoice_discount` table
 INSERT INTO `invoice_discount` (`invoice_id`, `discount_id`)
 VALUES
 (1, 1),
-(2, 2),
-(3, 3),
-(4, 4);
+(2, 1),
+(3, 1),
+(4, 1);
 
 SET foreign_key_checks = 1;

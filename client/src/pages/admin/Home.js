@@ -6,9 +6,9 @@ import { ColorModeContext, useMode } from "../../theme";
 
 function AdminHome() {
   return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
+    // <ColorModeContext.Provider value={colorMode}>
+    //   <ThemeProvider theme={theme}>
+    //     <CssBaseline />
         <div className="app">
           <main className="content">
             <Routes>
@@ -19,8 +19,8 @@ function AdminHome() {
             </Routes>
           </main>
         </div>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
+      /* </ThemeProvider>
+    </ColorModeContext.Provider> */
   );
 }
 

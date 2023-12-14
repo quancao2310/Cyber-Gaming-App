@@ -1,33 +1,11 @@
 USE cyber_gaming;
 
 /*Please use root account*/
-SET
-    GLOBAL log_bin_trust_function_creators = 1;
+SET GLOBAL log_bin_trust_function_creators = 1;
 
-DELIMITER / / CREATE PROCEDURE getProductSalesStats(
-    IN start_date DATE,
-    IN end_date DATE
-) BEGIN
-SELECT
-    ip.product_id,
-    p.name AS product_name,
-    SUM(ip.quantity) AS quantity_sold,
-    SUM(ip.quantity * p.price) AS total_money
-FROM
-    invoice_product ip
-    JOIN product p ON ip.product_id = p.id
-    JOIN invoice i ON ip.invoice_id = i.id
-WHERE
-    i.created_at BETWEEN start_date
-    AND end_date
-GROUP BY
-    ip.product_id;
 
-END / / DELIMITER;
-
-CALL getProductSalesStats('2023-12-13', '2023-12-14');
-
-DELIMITER / / CREATE FUNCTION calculateInvoiceTotalMoney(invoice_id INT) RETURNS DOUBLE BEGIN DECLARE total_money DOUBLE;
+DELIMITER / / 
+CREATE FUNCTION calculateInvoiceTotalMoney(invoice_id INT) RETURNS DOUBLE BEGIN DECLARE total_money DOUBLE;
 
 SELECT
     SUM(ip.quantity * p.price) INTO total_money
@@ -41,21 +19,29 @@ RETURN total_money;
 
 END / / DELIMITER;
 
-SELECT
-    calculateInvoiceTotalMoney(2) AS total_money;
+SELECT calculateInvoiceTotalMoney(2) AS total_money;
 
-DELIMITER / / CREATE FUNCTION calculateProductTotalQuantitySold(IN product_id INT) RETURNS INT BEGIN DECLARE total_quantity_sold INT;
 
-SELECT
-    SUM(ip.quantity) INTO total_quantity_sold
-FROM
-    invoice_product ip
-WHERE
-    ip.product_id = product_id;
+CREATE FUNCTION calculateTotalIncome(start_date DATE, end_date DATE) RETURNS DOUBLE
+BEGIN
+    DECLARE total_income DOUBLE;
 
-RETURN total_quantity_sold;
+    SELECT COALESCE(SUM(ip.quantity * p.price), 0) INTO total_income
+    FROM invoice_product ip
+    JOIN product p ON ip.product_id = p.id
+    JOIN invoice i ON ip.invoice_id = i.id
+    WHERE
+        IFNULL(i.created_at >= start_date, TRUE) AND
+        IFNULL(i.created_at <= end_date, TRUE);
 
-END / / DELIMITER;
+    -- Check if total_income is NULL and set it to 0
+    IF total_income IS NULL THEN
+        SET total_income = 0;
+    END IF;
 
-SELECT
-    calculateProductTotalQuantitySold(YourProductID) AS total_quantity_sold;
+    RETURN total_income;
+END //
+
+DELIMITER ;
+
+SELECT calculateProductTotalQuantitySold(1) AS total_quantity_sold;

@@ -63,7 +63,6 @@ Invoice.find = (invoiceId) => {
     if (invoice[0].length === 0) {
         throw { kind: "not_found" };
     }
-    console.log("found invoice: ", invoice[0][0]);
     return invoice[0][0];
     })
     .catch((err) => {
@@ -75,7 +74,6 @@ Invoice.find = (invoiceId) => {
 Invoice.getAll = () => {
     return connection.query('SELECT * FROM invoice')
     .then((invoices) => {
-    console.log("invoices: ", invoices[0]);
     return invoices[0];
     })
     .catch((err) => {
@@ -151,7 +149,6 @@ return connection.query("SELECT * FROM room_invoice WHERE invoice_id = ?", [room
     if (invoice[0].length === 0) {
         throw { kind: "not_found" };
     }
-    console.log("found invoice: ", invoice[0][0]);
     return invoice[0][0];
     })
     .catch((err) => {
@@ -163,7 +160,6 @@ return connection.query("SELECT * FROM room_invoice WHERE invoice_id = ?", [room
 RoomInvoice.getAll = () => {
 return connection.query('SELECT * FROM room_invoice JOIN invoice ON id = invoice_id')
     .then((invoices) => {
-    console.log("room invoices: ", invoices[0]);
     return invoices[0];
     })
     .catch((err) => {
@@ -239,7 +235,6 @@ return connection.query("SELECT * FROM slot_invoice WHERE invoice_id = ?", [slot
     if (invoice[0].length === 0) {
         throw { kind: "not_found" };
     }
-    console.log("found invoice: ", invoice[0][0]);
     return invoice[0][0];
     })
     .catch((err) => {
@@ -251,7 +246,6 @@ return connection.query("SELECT * FROM slot_invoice WHERE invoice_id = ?", [slot
 SlotInvoice.getAll = () => {
 return connection.query('SELECT * FROM slot_invoice JOIN invoice ON id = invoice_id')
     .then((invoices) => {
-    console.log("slot invoices: ", invoices[0]);
     return invoices[0];
     })
     .catch((err) => {
@@ -324,7 +318,6 @@ return connection.query("SELECT * FROM invoice_product WHERE invoice_id = ?", [i
     if (invoice[0].length === 0) {
         throw { kind: "not_found" };
     }
-    console.log("found invoice: ", invoice[0][0]);
     return invoice[0][0];
     })
     .catch((err) => {
@@ -336,7 +329,6 @@ return connection.query("SELECT * FROM invoice_product WHERE invoice_id = ?", [i
 InvoiceProduct.getAll = () => {
 return connection.query('SELECT * FROM invoice_product JOIN invoice ON id = invoice_id')
     .then((invoices) => {
-    console.log("slot invoices: ", invoices[0]);
     return invoices[0];
     })
     .catch((err) => {

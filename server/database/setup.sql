@@ -40,6 +40,7 @@ CREATE TABLE `staff` (
                     `CCCD` VARCHAR(60) NOT NULL,
                     `age` INT,
                     `sex` ENUM ('Male', 'Female'),
+                    `type` ENUM ('Accountant', 'Maintain'),
                     `bank_name` VARCHAR(60),
                     `bank_credit_num` VARCHAR(60),
                     `start_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP

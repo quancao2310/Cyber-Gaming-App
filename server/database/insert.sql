@@ -90,6 +90,17 @@ VALUES
 ('Paid', 1, 7),
 ('Paid', 1, 8);
 
+INSERT INTO `invoice` (`payment_status`, `customer_id`)
+VALUES
+('Unpaid', 5),
+('Paid', 5),
+('Paid', 2),
+('Paid', 3),
+('Paid', 1),
+('Paid', 6),
+('Paid', 2),
+('Paid', 3);
+
 -- Insert values into the `invoice_product` table
 INSERT INTO `invoice_product` (`invoice_id`, `product_id`, `price`, `quantity`)
 VALUES

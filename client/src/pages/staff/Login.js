@@ -7,7 +7,6 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 
 const Login = ({ updateLoginStatus }) => {
-  const navigate = useNavigate();
   const [username, setUsername] = useState('');
 
   const handleUsernameChange = (event) => {

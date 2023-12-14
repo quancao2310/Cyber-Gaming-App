@@ -37,7 +37,7 @@ const BillingProcess = ({ updateLoginStatus }) => {
       <Button variant="contained" onClick={updateLoginStatus} style={{ position: 'absolute', left: '10px', top: '10px' }}>
         Change username
       </Button>
-      {myInvoices.filter(t=>t.staff_id!==null).map((invoice) => (
+      {myInvoices.filter(t=>t.staff_id===null).map((invoice) => (
         <Accordion
           key={invoice.id}
           expanded={expandedItemId === invoice.id}

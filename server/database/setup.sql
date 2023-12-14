@@ -42,6 +42,7 @@ CREATE TABLE `staff` (
                     `firstname` VARCHAR(60) NOT NULL,
                     `lastname` VARCHAR(60) NOT NULL,
                     `CCCD` VARCHAR(60) NOT NULL,
+                    `sex` VARCHAR(60) NOT NULL,
                     `age` INT,
                     `type` ENUM('Accountant', 'Maintenance', 'Security', 'Cashier', 'Server'),
                     `bank_name` VARCHAR(60),

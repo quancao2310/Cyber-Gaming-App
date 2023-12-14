@@ -1,19 +1,19 @@
 USE cyber_gaming;
 
 -- Procedure 1
-DROP PROCEDURE IF EXISTS comp_rented_time;
+DROP PROCEDURE IF EXISTS device_rented_time;
 DELIMITER //
-CREATE PROCEDURE comp_rented_time(
+CREATE PROCEDURE device_rented_time(
   IN deviceType VARCHAR(20),
   IN min_T FLOAT
 )
 BEGIN
-  DROP TEMPORARY TABLE IF EXISTS computer_device;
+  DROP TEMPORARY TABLE IF EXISTS selected_device;
   DROP TEMPORARY TABLE IF EXISTS slots_invoices;
   DROP TEMPORARY TABLE IF EXISTS rooms_invoices;
     
-  -- Extract computer devices
-  CREATE TEMPORARY TABLE IF NOT EXISTS computer_device AS (
+  -- Extract selected devices
+  CREATE TEMPORARY TABLE IF NOT EXISTS selected_device AS (
     SELECT room_type, room_order, slot_order, device_order, name AS device_name, last_time_maintain
     FROM device
     WHERE type=deviceType
@@ -22,7 +22,7 @@ BEGIN
   -- Calculate time for computers of slot_invoice
   CREATE TEMPORARY TABLE IF NOT EXISTS slots_invoices AS (
     SELECT CD.*, SUM(TIMESTAMPDIFF(SECOND, SI.start_time, SI.end_time))/3600 AS `total_time (h)`
-    FROM computer_device CD
+    FROM selected_device CD
     INNER JOIN slot_invoice SI
     ON SI.room_type=CD.room_type AND SI.room_order=CD.room_order AND SI.slot_order=CD.slot_order
     WHERE SI.start_time > CD.last_time_maintain
@@ -33,7 +33,7 @@ BEGIN
   -- Calculate time for computers of room_invoice
   CREATE TEMPORARY TABLE IF NOT EXISTS rooms_invoices (
     SELECT CD.*, SUM(TIMESTAMPDIFF(SECOND, RI.start_time, RI.end_time))/3600 AS `total_time (h)`
-    FROM computer_device CD
+    FROM selected_device CD
     INNER JOIN room_invoice RI
     ON RI.room_type=CD.room_type AND RI.room_order=CD.room_order
     WHERE RI.start_time > CD.last_time_maintain
@@ -47,7 +47,7 @@ BEGIN
   SELECT * FROM rooms_invoices
   ORDER BY `total_time (h)` DESC, room_type ASC, room_order ASC;
     
-  DROP TEMPORARY TABLE IF EXISTS computer_device;
+  DROP TEMPORARY TABLE IF EXISTS selected_device;
   DROP TEMPORARY TABLE IF EXISTS slots_invoices;
   DROP TEMPORARY TABLE IF EXISTS rooms_invoices;
 END //

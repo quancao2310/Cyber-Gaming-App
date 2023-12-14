@@ -44,7 +44,7 @@ function ProductTable({ data, trigger }) {
               {item.item_sold > 0 ? 'Available' : 'Out of stock'}
             </td>
             <td className="text-center col">
-              <button className="btn btn-primary m-1">Chi tiết</button>
+              <Link className="btn btn-primary m-1" to={`${item.id}`}>Chi tiết</Link>
               <UpdateProductForm productId={item.id} trigger={trigger} />
               <button
                 className="btn btn-danger m-1"

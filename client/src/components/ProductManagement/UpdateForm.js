@@ -22,8 +22,7 @@ function UpdateProductForm({ productId, trigger }) {
     const fetchData = async () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/product/${productId}`);
-        const productData = response.data;
-        setFormData(productData);
+        setFormData(response.data[0]);
       } catch (error) {
         console.error('Error fetching product data:', error);
       }
@@ -119,7 +118,7 @@ function UpdateProductForm({ productId, trigger }) {
             </div>
             <div className="mb-3">
               <label className="form-label col-12">Images:</label>
-              {/* {formData.images.map((image, index) => (
+              {formData.images.map((image, index) => (
                 <div key={index} className="mb-3 row">
                   <label className="form-label col-1">URL:</label>
                   <input
@@ -145,7 +144,7 @@ function UpdateProductForm({ productId, trigger }) {
                     Remove Image
                   </button>
                 </div>
-              ))} */}
+              ))}
               <button type="button" className="btn btn-primary" onClick={handleAddImage}>
                 Add Image
               </button>

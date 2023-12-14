@@ -17,6 +17,7 @@ import Product from "./pages/admin/ProductManagement";
 import Transaction from "./pages/admin/TransactionManagement";
 import DiscountEvent from "./pages/admin/DiscountEventManagement";
 import { mockDataInvoices } from "./data/mockData";
+import ProductDetail from "./components/ProductManagement/ProductDetail";
 
 function App() {
 
@@ -46,6 +47,7 @@ function App() {
           {/* Admin routes */}
           <Route path="/admin" element={<AdminHome />} />
           <Route path="/admin/product" element={<Product />} />
+          <Route path="/admin/product/:productId" element={<ProductDetail />} />
           <Route path="/admin/transaction" element={<Transaction />} />
           <Route path="/admin/discount-event" element={<DiscountEvent />} />
 

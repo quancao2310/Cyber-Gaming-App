@@ -57,6 +57,8 @@ class ProductController {
       const productId = req.params.productId;
       const { name, description, category, price, item_sold, images } = req.body;
   
+      await ProductImage.delete(productId);
+      
       const updatedProduct = await Product.update(productId, {
         name,
         description,
@@ -66,15 +68,12 @@ class ProductController {
       });
   
       if (images && Array.isArray(images) && images.length > 0) {
-        const productImages = images.map(image => new ProductImage({
+        const productImages = images.map((image) => new ProductImage({
           product_id: productId,
-          ...image
+          ...image,
         }));
   
-        await Promise.all(productImages.map(img => ProductImage.update(productId, img).catch(err => ProductImage.create(img))));
-      }
-      else{
-        await ProductImage.delete(productId);
+        await Promise.all(productImages.map((img) => ProductImage.create(img)));
       }
   
       res.status(200).json({ message: 'Product and associated images updated successfully', updatedProduct });
@@ -83,6 +82,7 @@ class ProductController {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   }
+  
 
   async deleteProductWithImages(req, res) {
     try {

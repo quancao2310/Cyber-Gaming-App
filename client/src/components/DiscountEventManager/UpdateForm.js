@@ -17,7 +17,7 @@ function UpdateEventForm({ eventId, trigger }) {
   });
 
   const convertToDatetimeLocalFormat = (isoDateTime) => {
-    return isoDateTime ? isoDateTime.slice(0, -1) : '';
+    return isoDateTime ? isoDateTime.slice(0, -5) : '';
   }
   
   useEffect(() => {
@@ -49,13 +49,7 @@ function UpdateEventForm({ eventId, trigger }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const updatedFormData = {
-        ...formData,
-        start_date: formData.start_date + 'Z',
-        end_date: formData.end_date + 'Z',
-      };
-
-      const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/event/update/${eventId}`, updatedFormData);
+      const response = await axios.put(`${process.env.REACT_APP_SERVER_URL}/event/update/${eventId}`, formData);
       console.log('Event updated successfully:', response.data);
       setFetchTrigger(!fetchTrigger);
       handleClose();
@@ -63,6 +57,7 @@ function UpdateEventForm({ eventId, trigger }) {
       console.error('Error updating Event:', error);
     }
   };
+  
 
   return (
     <>

@@ -1,4 +1,4 @@
-import connection from "../config/index.js"
+import connection from "../config/index.js";
 
 // constructor
 const Customer = function (customer) {
@@ -26,22 +26,39 @@ Customer.create = (newCustomer, result) => {
 };
 
 Customer.findById = (customerId, result) => {
-  connection.query(`SELECT * FROM customer WHERE id = ${customerId}`, (err, res) => {
-    if (err) {
+  connection.query(
+    `SELECT * FROM customer WHERE id = ${customerId}`,
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+
+      if (res.length) {
+        console.log("found customer: ", res[0]);
+        result(null, res[0]);
+        return;
+      }
+
+      // not found Customer with the id
+      result({ kind: "not_found" }, null);
+    }
+  );
+};
+
+Customer.findByPhoneNumber = (phoneNumber) => {
+  return connection
+    .query(`SELECT * FROM customer WHERE phone_number = '${phoneNumber}'`)
+    .then((data) => {
+      return data[0][0] || null;
+    })
+    .catch((err) => {
       console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    if (res.length) {
-      console.log("found customer: ", res[0]);
-      result(null, res[0]);
-      return;
-    }
-
-    // not found Customer with the id
-    result({ kind: "not_found" }, null);
-  });
+      return {
+        error: "Can not find customer",
+      };
+    });
 };
 
 Customer.getAll = (result) => {
@@ -58,4 +75,3 @@ Customer.getAll = (result) => {
 };
 
 export default Customer;
-

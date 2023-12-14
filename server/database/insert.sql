@@ -79,16 +79,16 @@ VALUES
 (25, 2, 'Transaction 4 Content', 'Payment', 3);
 
 -- Insert values into the `invoice` table
-INSERT INTO `invoice` (`payment_status`, `total_order_value`, `staff_id`, `customer_id`)
+INSERT INTO `invoice` (`payment_status`, `staff_id`, `customer_id`)
 VALUES
-('Paid', 50000, 1, 1),
-('Unpaid', 30000, 2, 2),
-('Paid', 20000, 3, 3),
-('Paid', 15000, 4, 4),
-('Paid', 12000, 1, 5),
-('Paid', 16000, 1, 6),
-('Paid', 14000, 1, 7),
-('Paid', 18000, 1, 8);
+('Paid', 1, 1),
+('Unpaid', 2, 2),
+('Paid', 3, 3),
+('Paid', 4, 4),
+('Paid', 1, 5),
+('Paid', 1, 6),
+('Paid', 1, 7),
+('Paid', 1, 8);
 
 -- Insert values into the `invoice_product` table
 INSERT INTO `invoice_product` (`invoice_id`, `product_id`, `price`, `quantity`)

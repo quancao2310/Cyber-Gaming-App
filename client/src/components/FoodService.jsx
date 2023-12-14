@@ -1,4 +1,5 @@
 import React, { Fragment, useState,useLayoutEffect } from "react";
+import axios from 'axios';
 import {
   Container,
   Typography,
@@ -12,14 +13,26 @@ import {
 import Navbar from "./Navbar";
 
 const FoodOrderPage = () => {
+
+  const [foodItems, setFoodItems] = useState([]);
+
   useLayoutEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
       window.location.href = "/customer/login?redirect=/customer/food-order";
     }
+
+    axios.get('http://localhost:5000/api/product')
+    .then((res)=>{
+      setFoodItems(res.data);
+      console.log(res.data)
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
   }, []);
   // Mock data for food items (replace this with your actual data)
-  const foodItems = [
+  const f = [
     {
       id: 1,
       name: "Burger",

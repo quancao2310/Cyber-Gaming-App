@@ -11,7 +11,7 @@ const BillingProcess = ({ updateLoginStatus }) => {
     axios
       .get("http://localhost:5000/api/invoice")
       .then((res) => {
-        setMyInvoices(res.data)
+        setMyInvoices(res.data.filter(t=>t.staff_id===null))
       })
     console.log("Called")
   }, [])
@@ -20,16 +20,32 @@ const BillingProcess = ({ updateLoginStatus }) => {
     setExpandedItemId(id === expandedItemId ? null : id);
   };
 
-  const handleApprove = (id) => {
+  const handleApprove = (invoice) => {
     // Logic for handling approve action for the transaction with ID 'id'
-    console.log(`Approve invoice ${id}`);
-    setMyInvoices(myInvoices.filter((invoice)=>invoice.id!==id));
+    console.log(`Approve invoice ${invoice.id}`);
+    axios.put(`http://localhost:5000/api/invoice/update/${invoice.id}`,{
+      staff_id: localStorage.getItem('username')
+    })
+    .then((res)=>{
+      console.log(res)
+    })
+    .catch((err)=>{
+      console.log("Lỗi khi duyệt hóa đơn: ", err)
+    })
+    setMyInvoices(myInvoices.filter((it)=>it.id!==invoice.id));
   };
 
-  const handleDecline = (id) => {
+  const handleDecline = (invoice) => {
     // Logic for handling decline action for the transaction with ID 'id'
-    console.log(`Decline invoice ${id}`);
-    setMyInvoices(myInvoices.filter((invoice)=>invoice.id!==id));
+    axios.delete(`http://localhost:5000/api/invoice/delete/${invoice.id}`)
+    .then((res)=>{
+      console.log(res)
+    })
+    .catch((err)=>{
+      console.log("Lỗi khi xóa invoice ", err)
+    })
+    console.log(`Decline invoice ${invoice.id}`);
+    setMyInvoices(myInvoices.filter((it)=>it.id!==invoice.id));
   };
 
   return (
@@ -37,7 +53,7 @@ const BillingProcess = ({ updateLoginStatus }) => {
       <Button variant="contained" onClick={updateLoginStatus} style={{ position: 'absolute', left: '10px', top: '10px' }}>
         Change username
       </Button>
-      {myInvoices.filter(t=>t.staff_id===null).map((invoice) => (
+      {myInvoices.length === 0 ? <div>Hiện tại không có đơn cần duyệt</div> : myInvoices.map((invoice) => (
         <Accordion
           key={invoice.id}
           expanded={expandedItemId === invoice.id}
@@ -54,8 +70,8 @@ const BillingProcess = ({ updateLoginStatus }) => {
               <Typography>{`customer_id: ${invoice.customer_id}`}</Typography>
               <Typography>{`created_at: ${invoice.created_at}`}</Typography>
               <Typography>{`total_order_value: ${invoice.total_order_value}`}</Typography>
-              <Button variant="contained" onClick={() => handleApprove(invoice.id)}>Approve</Button>
-              <Button variant="contained" onClick={() => handleDecline(invoice.id)}>Decline</Button>
+              <Button variant="contained" onClick={() => handleApprove(invoice)}>Approve</Button>
+              <Button variant="contained" onClick={() => handleDecline(invoice)}>Decline</Button>
             </div>
           </AccordionDetails>
         </Accordion>

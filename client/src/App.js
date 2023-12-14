@@ -18,7 +18,7 @@ import Transaction from "./pages/admin/TransactionManagement";
 import DiscountEvent from "./pages/admin/DiscountEventManagement";
 import { mockDataInvoices } from "./data/mockData";
 import ProductDetail from "./components/ProductManagement/ProductDetail";
-
+import 'react-toastify/dist/ReactToastify.css';
 function App() {
 
   return (

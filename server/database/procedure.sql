@@ -54,22 +54,21 @@ END //
 DELIMITER ;
 
 -- Procedure 2
-DROP PROCEDURE IF EXISTS staffs_add_money_for_customer;
+DROP PROCEDURE IF EXISTS find_transaction;
 DELIMITER //
-CREATE PROCEDURE staffs_add_money_for_customer(
+CREATE PROCEDURE find_transaction(
   IN customer_fname VARCHAR(60),
   IN customer_phone VARCHAR(20),
-  IN time_start DATETIME,
-  IN time_end DATETIME
+  IN time_start TIMESTAMP,
+  IN time_end TIMESTAMP
 )
 BEGIN
-  SELECT S.staff_id, S.staff_name
-  FROM GiaoDichNapTien NT
-  INNER JOIN DonHang DH ON NT.order_id=DH.order_id
-  INNER JOIN ThuNgan TN ON DH.staff_id=TN.staff_id
-  INNER JOIN Staff S ON TN.staff_id=S.staff_id
-  INNER JOIN Account A ON NT.acc_id=A.acc_id
-  INNER JOIN Customer C ON A.customer_id=C.customer_id
-  WHERE C.customer_name = @customer_name;
+  SELECT T.*, S.firstname, S.lastname
+  FROM transaction T
+  INNER JOIN invoice I ON T.invoice_id=I.id
+  INNER JOIN staff S ON I.staff_id=S.id
+  INNER JOIN account A ON T.account_id=A.id
+  INNER JOIN customer C ON A.customer_id=C.id
+  WHERE C.firstname = customer_fname AND C.phone_number = customer_phone AND T.created_at >= time_start AND T.created_at <= time_end;
 END //
 DELIMITER ;

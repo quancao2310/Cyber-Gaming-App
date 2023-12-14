@@ -575,7 +575,8 @@ VALUES
 -- Insert values into the `discount_event` table
 INSERT INTO `discount_event` (`name`, `start_date`, `end_date`, `discount_percent`)
 VALUES
-('Giảm giá mừng khai trương', '2023-12-01 00:00:00', '2023-12-16 00:00:00', 10);
+('Giảm giá mừng khai trương', '2023-01-01 00:00:00', '2023-01-10 00:00:00', 10),
+('Giảm giá cuối năm', '2023-12-01 00:00:00', '2023-12-16 00:00:00', 10);
 
 -- Insert values into the `invoice_discount` table
 INSERT INTO `invoice_discount` (`invoice_id`, `discount_id`)

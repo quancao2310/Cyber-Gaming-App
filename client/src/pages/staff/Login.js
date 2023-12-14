@@ -6,8 +6,7 @@ import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 
-const Login = () => {
-  const navigate = useNavigate();
+const Login = ({ updateLoginStatus }) => {
   const [username, setUsername] = useState('');
 
   const handleUsernameChange = (event) => {
@@ -18,7 +17,8 @@ const Login = () => {
     event.preventDefault();
     // Here, you can add your logic for handling the login process
     console.log('Username submitted:', username);
-    navigate('/billing-process');
+    localStorage.setItem('username', username);
+    updateLoginStatus();
     // Add further logic (e.g., authentication) as needed
   };
 

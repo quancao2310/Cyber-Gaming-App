@@ -1,58 +1,67 @@
-import { useState } from "react";
-import { mockTransactions } from "../../data/mockData";
-import List from '@mui/material/List';
-import ListSubheader from '@mui/material/ListSubheader';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Collapse from '@mui/material/Collapse';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import DraftsIcon from '@mui/icons-material/Drafts';
-import SendIcon from '@mui/icons-material/Send';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
-import StarBorder from '@mui/icons-material/StarBorder';
-import { Box } from '@mui/material';
-function BillingProcess() {
-  const [opens, setOpens] = useState(mockTransactions.map(()=>false));
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Accordion, AccordionSummary, AccordionDetails, Button, Typography } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Container from '@mui/material/Container';
+const BillingProcess = ({ updateLoginStatus }) => {
+  const [expandedItemId, setExpandedItemId] = useState(null);
+  const [myInvoices, setMyInvoices] = useState([]);
 
-  const handleClick = (key) => {
-    const newOpens = opens.map((open, index)=>{
-      return key===index?!open:false
-    })
-    setOpens(newOpens)
-  }
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/invoice")
+      .then((res) => {
+        setMyInvoices(res.data)
+      })
+    console.log("Called")
+  }, [])
+
+  const handleExpand = (id) => {
+    setExpandedItemId(id === expandedItemId ? null : id);
+  };
+
+  const handleApprove = (id) => {
+    // Logic for handling approve action for the transaction with ID 'id'
+    console.log(`Approve invoice ${id}`);
+    setMyInvoices(myInvoices.filter((invoice)=>invoice.id!==id));
+  };
+
+  const handleDecline = (id) => {
+    // Logic for handling decline action for the transaction with ID 'id'
+    console.log(`Decline invoice ${id}`);
+    setMyInvoices(myInvoices.filter((invoice)=>invoice.id!==id));
+  };
+
   return (
-    <div className="container-fluid d-flex justify-content-center align-items-center vh-100">
-      <div className="text-center bg-secondary p-3">
-        <List
-          sx={{ width: '100%', bgcolor: 'background.paper' }}
-          component="nav"
-          aria-labelledby="nested-list-subheader"
-          subheader={
-            <ListSubheader component="div" id="nested-list-subheader">
-              Danh sách các hóa đơn chưa thanh toán
-            </ListSubheader>
-          }
+    <Container component="main" maxWidth="xs">
+      <Button variant="contained" onClick={updateLoginStatus} style={{ position: 'absolute', left: '10px', top: '10px' }}>
+        Change username
+      </Button>
+      {myInvoices.filter(t=>t.staff_id===null).map((invoice) => (
+        <Accordion
+          key={invoice.id}
+          expanded={expandedItemId === invoice.id}
+          onChange={() => handleExpand(invoice.id)}
         >
-          {mockTransactions.map((transaction, index)=>(
-            transaction.status?<div></div>:<Box>
-            <ListItemButton onClick={()=>handleClick(index)}>
-              <ListItemIcon>
-                <InboxIcon />
-              </ListItemIcon>
-              <ListItemText primary="Inbox" />
-              {opens[index] ? <ExpandLess /> : <ExpandMore />}
-            </ListItemButton>
-            <Collapse in={opens[index]} timeout="auto" unmountOnExit>
-              User: {transaction.user}
-            </Collapse>
-          </Box>
-          ))}
-        </List>
-      </div>
-    </div>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography>
+              {`invoice ID: ${invoice.id} -- Status: ${invoice.payment_status}`}
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <div style={{ textAlign: 'left' }}>
+              <Typography>{`Staff ID: ${invoice.staff_id}`}</Typography>
+              <Typography>{`customer_id: ${invoice.customer_id}`}</Typography>
+              <Typography>{`created_at: ${invoice.created_at}`}</Typography>
+              <Typography>{`total_order_value: ${invoice.total_order_value}`}</Typography>
+              <Button variant="contained" onClick={() => handleApprove(invoice.id)}>Approve</Button>
+              <Button variant="contained" onClick={() => handleDecline(invoice.id)}>Decline</Button>
+            </div>
+          </AccordionDetails>
+        </Accordion>
+      ))}
+    </Container>
   );
-}
+};
 
 export default BillingProcess;

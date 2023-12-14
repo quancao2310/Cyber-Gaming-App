@@ -15,22 +15,22 @@ const ProductImage = function (productImage) {
   this.title = productImage.title;
 };
 
-Product.create = (newProduct) => {
+Product.create = async (newProduct) => {
   const { description, name, category, price, item_sold } = newProduct;
 
-  return connection.query(
+  return await connection.query(
     "INSERT INTO product SET description = ?, name = ?, category = ?, price = ?, item_sold = ?",
-    [description, name, category, price, item_sold],
-    (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        throw err;
-      }
-
-      console.log("created product: ", { id: res.insertId, ...newProduct });
-      return { id: res.insertId, ...newProduct };
-    }
-  );
+    [description, name, category, price, item_sold]
+  )
+    .then((result) => {
+      const insertId = result[0].insertId;
+      newProduct.id = insertId;
+      return newProduct;
+    })
+    .catch((err) => {
+      console.log("error: ", err);
+      throw err;
+    });
 };
 
 
@@ -49,10 +49,9 @@ Product.update = (productId, updatedProduct) => {
   )
     .then((res) => {
       if (res.affectedRows === 0) {
-        throw { kind: "not_found" };
+        throw { kind: "update failed!" };
       }
-      console.log("updated product: ", { id: productId, ...updatedProduct });
-      return { id: productId, ...updatedProduct };
+      return updatedProduct;
     })
     .catch((err) => {
       console.log("error: ", err);

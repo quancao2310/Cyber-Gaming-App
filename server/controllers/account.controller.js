@@ -1,6 +1,6 @@
 import { parse } from "dotenv";
-import Account from "../models/account.model";
-import Customer from "../models/customer.model";
+import Account from "../models/account.model.js";
+import Customer from "../models/customer.model.js";
 class AccountController {
   async index(req, res) {
     res.json({

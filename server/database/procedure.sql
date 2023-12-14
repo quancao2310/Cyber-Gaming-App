@@ -54,21 +54,22 @@ END //
 DELIMITER ;
 
 -- Procedure 2
-DROP PROCEDURE IF EXISTS find_transaction;
+DROP PROCEDURE IF EXISTS find_invoice;
 DELIMITER //
-CREATE PROCEDURE find_transaction(
+CREATE PROCEDURE find_invoice(
   IN customer_fname VARCHAR(60),
   IN customer_phone VARCHAR(20),
   IN time_start TIMESTAMP,
   IN time_end TIMESTAMP
 )
 BEGIN
-  SELECT T.*, S.firstname, S.lastname
-  FROM transaction T
-  INNER JOIN invoice I ON T.invoice_id=I.id
+  SELECT I.*, S.firstname AS staff_firstname, S.lastname AS staff_lastname, C.firstname AS customer_firstname, C.lastname AS customer_lastname
+  FROM invoice I
   INNER JOIN staff S ON I.staff_id=S.id
-  INNER JOIN account A ON T.account_id=A.id
-  INNER JOIN customer C ON A.customer_id=C.id
-  WHERE C.firstname = customer_fname AND C.phone_number = customer_phone AND T.created_at >= time_start AND T.created_at <= time_end;
+  INNER JOIN customer C ON I.customer_id=C.id
+  WHERE 
+    (customer_fname='' OR POSITION(customer_fname IN C.firstname) > 0) AND
+    (customer_phone='' OR POSITION(customer_phone IN C.phone_number) > 0) AND
+    I.created_at >= time_start AND I.created_at <= time_end;
 END //
 DELIMITER ;

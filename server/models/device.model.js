@@ -44,15 +44,30 @@ Device.findById = async (room_type, room_order, slot_order, device_order, result
   }
 }
 
-Device.getAll = async (result) => {
+Device.getAll = async () => {
   try {
     const result = await connection.query("SELECT * FROM device");
     console.log("found devices: ", result[0]);
-    result(null, result[0]);
+    return result[0];
   }
   catch (err) {
     console.log("error: ", err);
-    result(err, null);
+    throw err;
+  }
+}
+
+Device.delete = async (room_type, room_order, slot_order, device_order) => {
+  try {
+    const result = await connection.query(
+      `DELETE FROM device WHERE room_type=? AND room_order=? AND slot_order=? AND device_order=?`,
+      [room_type, room_order, slot_order, device_order]
+    );
+    console.log(result);
+    return result;
+  }
+  catch (err) {
+    console.log("error: ", err);
+    throw err;
   }
 }
 

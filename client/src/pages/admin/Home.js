@@ -10,12 +10,11 @@ const AdminHome = () => {
           <Nav.Link href="/admin/product">Sản phẩm</Nav.Link>
           <Nav.Link href="/admin/transaction">Giao dịch</Nav.Link>
           <Nav.Link href="/admin/invoice">Hóa đơn</Nav.Link>
+          <Nav.Link href="/admin/device">Thiết bị</Nav.Link>
           <Nav.Link href="/admin/discount-event">Sự kiện khuyến mãi</Nav.Link>
         </Nav>
       </Navbar>
-
       
-
       <Navbar bg="primary" variant="dark" fixed="bottom">
         <Container>
           <Navbar.Text>

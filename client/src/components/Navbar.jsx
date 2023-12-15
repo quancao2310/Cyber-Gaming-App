@@ -18,6 +18,10 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem("account_balance");
     localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    localStorage.removeItem("account_id");
+    localStorage.removeItem("account_customer_id");
+    
     setLogin(false);
     window.location.href = "/customer/login";
   };

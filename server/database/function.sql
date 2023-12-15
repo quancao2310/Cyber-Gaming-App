@@ -3,6 +3,8 @@ USE cyber_gaming;
 /*Please use root account*/
 SET GLOBAL log_bin_trust_function_creators = 1;
 
+DROP FUNCTION IF EXISTS calculateProductTotalQuantitySold;
+DROP FUNCTION IF EXISTS calculateInvoiceTotalMoney;
 
 DELIMITER / / 
 CREATE FUNCTION calculateInvoiceTotalMoney(invoice_id INT) RETURNS DOUBLE BEGIN DECLARE total_money DOUBLE;

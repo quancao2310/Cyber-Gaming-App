@@ -96,6 +96,18 @@ class ProductController {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   }
+
+  async calculateTotalIncome(req, res) {
+    try {
+      const { start_date, end_date } = req.params;
+      const totalIncome = await Product.calculateTotalIncome(start_date, end_date);
+
+      res.json({ totalIncome });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  }
 }
 
 export default new ProductController();

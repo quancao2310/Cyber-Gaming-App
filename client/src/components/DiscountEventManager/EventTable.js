@@ -46,13 +46,7 @@ function EventTable({ data, trigger }) {
             <td className="text-center col">{formatDate(item.end_date)}</td>
             <td className="text-center col">{item.discount_percent}</td>
             <td className="text-center col">
-              <UpdateEventForm eventId={item.id} trigger={trigger} />
-              <button
-                className="btn btn-danger m-1"
-                onClick={() => handleDelete(item.id)}
-              >
-                Xóa
-              </button>                
+              <UpdateEventForm eventId={item.id} trigger={trigger} />              
             </td>
           </tr>
         ))}

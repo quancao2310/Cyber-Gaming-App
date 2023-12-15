@@ -1,5 +1,5 @@
 import express from 'express';
-import roomController from '../../controllers/room.controller';
+import roomController from '../../controllers/room.controller.js';
 const roomRoutes = express.Router();
 
 // roomRoutes.get('/private-room', roomController.showAllPrivateRoom);

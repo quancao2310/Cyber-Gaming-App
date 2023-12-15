@@ -119,6 +119,18 @@ Product.getAll = () => {
     });
 };
 
+Product.calculateTotalIncome = async (start_date, end_date) => {
+  try {
+    const result = await connection.query(
+      'SELECT calculateTotalIncome(?, ?) AS total_income',
+      [start_date, end_date]
+    );
+    return result[0][0].total_income;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
 
 ProductImage.update = (productId, updatedProductImage) => {
   return connection.query(

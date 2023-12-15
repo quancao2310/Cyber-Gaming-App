@@ -90,4 +90,52 @@ Room.delete = async (room_type, room_order) => {
   }
 }
 
+Room.getAllPrivateRoom = async () => {
+  try {
+    const result = await connection.query(
+      `SELECT * FROM room WHERE rent_price IS NOT NULL`
+    );
+    console.log("found rooms: ", result[0]);
+    return result[0];
+  }
+  catch (err) {
+    console.log("error: ", err);
+    throw err;
+  }
+}
+
+Room.getAllPublicRoom = async () => {
+  try {
+    const result1 = await connection.query(
+      `SELECT * FROM room WHERE rent_price IS NULL`
+    );
+    const result = await connection.query(
+      `SELECT * FROM slot 
+       WHERE NOT EXISTS (
+         SELECT 1 
+         FROM slot_invoice 
+         WHERE slot.room_type = slot_invoice.room_type 
+           AND slot.room_order = slot_invoice.room_order 
+           AND slot.slot_order = slot_invoice.slot_order 
+           AND NOW() < slot_invoice.end_time
+       )`
+    );
+    const room = [];
+    for (let i = 0; i < result1[0].length; i++) {
+      const available_slot = result[0].filter(slot => slot.room_type === result1[0][i].room_type && slot.room_order === result1[0][i].room_order);
+      room.push({
+        ...result1[0][i],
+        available_slot: available_slot
+      })
+    }
+    
+    // console.log("found rooms: ", result[0]);
+    return room;
+  }
+  catch (err) {
+    console.log("error: ", err);
+    throw err;
+  }
+}
+
 export default Room;

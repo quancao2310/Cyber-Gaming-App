@@ -1,4 +1,5 @@
 import React, { useLayoutEffect, useState } from 'react';
+import axios from 'axios';
 import {
   TextField,
   Button,
@@ -29,6 +30,14 @@ const DepositPage = () => {
     // Add your deposit logic here
     console.log('Amount:', amount);
     console.log('Payment Method:', paymentMethod);
+    axios.post('http://localhost:5000/api/transaction', {
+      amount: amount,
+      created_at: '2023-12-15',
+      account_id: localStorage.getItem('account_id'),
+      content: "Transaction content",
+      status: "Recharge",
+      invoice_id: null,
+    })
 
     const account_balance = localStorage.getItem('account_balance') ? parseFloat(localStorage.getItem('account_balance')) : 0;
     localStorage.setItem('account_balance', (account_balance + parseFloat(amount)).toFixed(2));

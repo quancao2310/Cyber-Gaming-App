@@ -1,7 +1,6 @@
 import connection from "../config/index.js";
 
 const Transaction = function (transaction) {
-  this.id = transaction.id;
   this.amount = transaction.amount;
   this.created_at = transaction.created_at;
   this.account_id = transaction.account_id;

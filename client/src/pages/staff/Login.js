@@ -18,10 +18,14 @@ const Login = ({ updateLoginStatus }) => {
     event.preventDefault();
     // Here, you can add your logic for handling the login process
     axios.get(`http://localhost:5000/api/staff/${username}`)
-    .then((res)=>{
-      console.log(res)
-      localStorage.setItem('username', username);
-      updateLoginStatus();
+    .then(res=>res.data)
+    .then((data)=>{
+      if (data.type !== 'Accountant'){
+        alert("You are not an Accountant")
+      } else {
+        localStorage.setItem('staffID', username);
+        updateLoginStatus();
+      }
     })
     .catch((err)=>{
       console.log(err)
@@ -35,7 +39,7 @@ const Login = ({ updateLoginStatus }) => {
     <Container component="main" maxWidth="xs">
       <Paper elevation={3} className="wraper">
         <Typography component="h1" variant="h5">
-          Staff Login
+          Staff Login - Nhập ID nhân viên
         </Typography>
         <form className="form-class" onSubmit={handleSubmit}>
           <TextField

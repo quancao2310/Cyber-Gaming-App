@@ -72,7 +72,7 @@ Invoice.find = (invoiceId) => {
 };
 
 Invoice.getAll = () => {
-    return connection.query('SELECT * FROM invoice')
+    return connection.query('SELECT i.id AS invoice_id, i.created_at, i.payment_status, i.total_order_value, i.staff_id, i.customer_id, a.id AS account_id, a.account_name, a.password, a.account_balance, a.account_status, a.time_created, a.last_login, a.customer_id AS account_customer_id FROM invoice i JOIN account a ON i.customer_id = a.customer_id')
     .then((invoices) => {
     return invoices[0];
     })

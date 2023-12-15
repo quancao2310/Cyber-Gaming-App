@@ -1,4 +1,5 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
+import axios from "axios";
 import {
   Container,
   Typography,
@@ -45,13 +46,38 @@ const availableRooms = [
 const OrderRoomPage = () => {
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [playtime, setPlaytime] = useState("");
+  const [availableRooms, setAvailableRooms] = useState([]);
   
   useLayoutEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
       window.location.href = "/customer/login?redirect=/customer/order-room";
     }
+
+    axios.get('http://localhost:5000/api/room/private-room')
+    .then((res)=>{
+      console.log(res.data)
+      const availableRooms = []
+      for (let i = 0; i < res.data.length; i++) {
+        const obj ={
+          id: i,
+          name: res.data[i].description,
+          description: res.data[i].description,
+          image: "https://i.pinimg.com/originals/48/0e/8b/480e8b4bcb61706fad950f33e9e415e0.jpg",
+          price: res.data[i].rent_price,
+          isAvailable: res.data[i].room_status,
+        }
+        availableRooms.push(obj)
+      }
+      console.log(availableRooms)
+      setAvailableRooms(availableRooms)
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
+
   }, []);
+    
 
   const handleRoomSelection = (room) => {
     setSelectedRoom(room);

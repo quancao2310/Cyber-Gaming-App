@@ -153,7 +153,7 @@ const CartPage = () => {
             Order
           </Button>
         </div>
-        {cartItems.length === 0 ? (
+        {cartItems.length === 0 && slotItems.length ===0 && roomItems.length === 0 ? (
           <Typography variant="h6" align="center" style={{ marginTop: "20px" }}>
             Your cart is empty.
           </Typography>

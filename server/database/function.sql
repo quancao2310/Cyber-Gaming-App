@@ -3,29 +3,32 @@ USE cyber_gaming;
 /*Please use root account*/
 SET GLOBAL log_bin_trust_function_creators = 1;
 
-DROP FUNCTION IF EXISTS calculateProductTotalQuantitySold;
+DROP FUNCTION IF EXISTS calculateTotalIncome;
 DROP FUNCTION IF EXISTS calculateInvoiceTotalMoney;
 
-DELIMITER / / 
-CREATE FUNCTION calculateInvoiceTotalMoney(invoice_id INT) RETURNS DOUBLE BEGIN DECLARE total_money DOUBLE;
+DELIMITER //
 
-SELECT
-    SUM(ip.quantity * p.price) INTO total_money
-FROM
-    invoice_product ip
-    JOIN product p ON ip.product_id = p.id
-WHERE
-    ip.invoice_id = invoice_id;
+CREATE FUNCTION calculateInvoiceTotalMoney(invoice_id INT) RETURNS DOUBLE 
+BEGIN 
+    DECLARE total_money DOUBLE;
 
-RETURN total_money;
+    SELECT
+        SUM(ip.quantity * p.price) INTO total_money
+    FROM
+        invoice_product ip
+        JOIN product p ON ip.product_id = p.id
+    WHERE
+        ip.invoice_id = invoice_id;
 
-END / / DELIMITER;
+    RETURN total_money;
+END //
 
-SELECT calculateInvoiceTotalMoney(2) AS total_money;
+DELIMITER ;
 
+DELIMITER //
 
-CREATE FUNCTION calculateTotalIncome(start_date DATE, end_date DATE) RETURNS DOUBLE
-BEGIN
+CREATE FUNCTION calculateTotalIncome(start_date DATE, end_date DATE) RETURNS DOUBLE 
+BEGIN 
     DECLARE total_income DOUBLE;
 
     SELECT COALESCE(SUM(ip.quantity * p.price), 0) INTO total_income
@@ -45,5 +48,3 @@ BEGIN
 END //
 
 DELIMITER ;
-
-SELECT calculateProductTotalQuantitySold(1) AS total_quantity_sold;

@@ -24,7 +24,11 @@ const FoodOrderPage = () => {
 
     axios.get('http://localhost:5000/api/product')
     .then((res)=>{
-      setFoodItems(res.data);
+      const foodItems = res.data;
+      for (let i = 0; i < foodItems.length; i++) {
+        foodItems[i].image = foodItems[i].images[0].url;
+      }
+      setFoodItems(foodItems);
       console.log(res.data)
     })
     .catch((err)=>{
@@ -32,57 +36,57 @@ const FoodOrderPage = () => {
     })
   }, []);
   // Mock data for food items (replace this with your actual data)
-  const f = [
-    {
-      id: 1,
-      name: "Burger",
-      description: "Delicious burger with fries",
-      image:
-        "https://www.shutterstock.com/image-photo/classic-hamburger-stock-photo-isolated-600nw-2282033179.jpg",
-      price: 7.99,
-    },
-    {
-      id: 2,
-      name: "Pizza",
-      description: "Classic pizza with your favorite toppings",
-      image:
-        "https://www.shutterstock.com/image-photo/classic-hamburger-stock-photo-isolated-600nw-2282033179.jpg",
-      price: 12.99,
-    },
-    {
-      id: 3,
-      name: "Salad",
-      description: "Fresh and healthy salad",
-      image:
-        "https://www.shutterstock.com/image-photo/classic-hamburger-stock-photo-isolated-600nw-2282033179.jpg",
-      price: 6.99,
-    },
-    {
-      id: 4,
-      name: "Sushi",
-      description: "Assorted sushi rolls",
-      image:
-        "https://www.shutterstock.com/image-photo/classic-hamburger-stock-photo-isolated-600nw-2282033179.jpg",
-      price: 14.99,
-    },
-    {
-      id: 5,
-      name: "Pasta",
-      description: "Homemade pasta with tomato sauce",
-      image:
-        "https://www.shutterstock.com/image-photo/classic-hamburger-stock-photo-isolated-600nw-2282033179.jpg",
-      price: 9.99,
-    },
-    {
-      id: 6,
-      name: "Steak",
-      description: "Juicy steak with roasted vegetables",
-      image:
-        "https://www.shutterstock.com/image-photo/classic-hamburger-stock-photo-isolated-600nw-2282033179.jpg",
-      price: 18.99,
-    },
-    // Add more food items as needed
-  ];
+  // const f = [
+  //   {
+  //     id: 1,
+  //     name: "Burger",
+  //     description: "Delicious burger with fries",
+  //     image:
+  //       "https://www.shutterstock.com/image-photo/classic-hamburger-stock-photo-isolated-600nw-2282033179.jpg",
+  //     price: 7.99,
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Pizza",
+  //     description: "Classic pizza with your favorite toppings",
+  //     image:
+  //       "https://www.shutterstock.com/image-photo/classic-hamburger-stock-photo-isolated-600nw-2282033179.jpg",
+  //     price: 12.99,
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Salad",
+  //     description: "Fresh and healthy salad",
+  //     image:
+  //       "https://www.shutterstock.com/image-photo/classic-hamburger-stock-photo-isolated-600nw-2282033179.jpg",
+  //     price: 6.99,
+  //   },
+  //   {
+  //     id: 4,
+  //     name: "Sushi",
+  //     description: "Assorted sushi rolls",
+  //     image:
+  //       "https://www.shutterstock.com/image-photo/classic-hamburger-stock-photo-isolated-600nw-2282033179.jpg",
+  //     price: 14.99,
+  //   },
+  //   {
+  //     id: 5,
+  //     name: "Pasta",
+  //     description: "Homemade pasta with tomato sauce",
+  //     image:
+  //       "https://www.shutterstock.com/image-photo/classic-hamburger-stock-photo-isolated-600nw-2282033179.jpg",
+  //     price: 9.99,
+  //   },
+  //   {
+  //     id: 6,
+  //     name: "Steak",
+  //     description: "Juicy steak with roasted vegetables",
+  //     image:
+  //       "https://www.shutterstock.com/image-photo/classic-hamburger-stock-photo-isolated-600nw-2282033179.jpg",
+  //     price: 18.99,
+  //   },
+  //   // Add more food items as needed
+  // ];
 
   const [quantities, setQuantities] = useState({});
 

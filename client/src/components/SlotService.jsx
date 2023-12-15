@@ -1,4 +1,5 @@
 import React, { useLayoutEffect, useState } from "react";
+import axios from "axios";
 import {
   Container,
   Typography,
@@ -47,6 +48,7 @@ const ComputerOrderPage = () => {
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [selectedComputer, setSelectedComputer] = useState(null);
   const [playtime, setPlaytime] = useState("");
+  const [roomWithComputers, setAvailableRooms] = useState([]);
 
   const handleRoomSelection = (room) => {
     setSelectedRoom(room);
@@ -102,6 +104,31 @@ const ComputerOrderPage = () => {
     if (!token) {
       window.location.href = "/customer/login/?redirect=/customer/order-slot";
     }
+    axios.get("http://localhost:5000/api/room/public-room")
+    .then((res)=>{
+      console.log(res.data)
+      const availableRooms = []
+      for (let i = 0; i < res.data.length; i++) {
+        const obj ={
+          id: i,
+          name: res.data[i].description,
+          description: res.data[i].description,
+          image: "https://i.pinimg.com/originals/48/0e/8b/480e8b4bcb61706fad950f33e9e415e0.jpg",
+          price: res.data[i].unit_price,
+          isAvailable: res.data[i].available_slot_quantity > 0,
+          computers: res.data[i].available_slot.map((slot,index) => {
+            return {
+              id: index,
+              name: `PC - ${slot.slot_order} (${slot.room_type}- ${slot.room_order} - ${slot.slot_order})`,
+              isAvailable: true,
+            }
+          }),
+        }
+        availableRooms.push(obj)
+      }
+      console.log(availableRooms)
+      setAvailableRooms(availableRooms)
+    })
   }, []);
 
   return (

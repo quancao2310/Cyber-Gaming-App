@@ -1,6 +1,6 @@
 import express from 'express';
 
-import staffController from '../../controllers/staff.controller';
+import staffController from '../../controllers/staff.controller.js';
 
 const staffRoutes = express.Router();
 

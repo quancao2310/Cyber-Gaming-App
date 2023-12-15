@@ -4,6 +4,8 @@ const roomRoutes = express.Router();
 
 roomRoutes.get('/private-room', roomController.showAllPrivateRoom);
 roomRoutes.get('/public-room', roomController.showAllPublicRoom);
+roomRoutes.get('/:room_type/:room_order', RoomController.show);
 roomRoutes.get('/', roomController.showAll);
+
 
 export default roomRoutes;

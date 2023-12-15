@@ -31,29 +31,47 @@ class DeviceController {
       });
     }
   }
-  // create(req, res) {
-  //   if (!req.body) {
-  //     return res.status(400).send({ message: "Content can not be empty!" });
-  //   }
-  //   const customer = new Device({
-  //       id: req.body.id,
-  //       firstname: req.body.firstname,
-  //       lastname: req.body.lastname,
-  //       email: req.body.email,
-  //       phone_number: req.body.phone_number,
-  //       year_of_birth: req.body.year_of_birth,
-  //       sex: req.body.sex,
-  //       customer_id_introduced_by: req.body.customer_id_introduced_by,
-  //   });
-  //   Device.create(customer, (err, data) => {
-  //     if (err)
-  //       res.status(500).send({
-  //         message:
-  //           err.message || "Some error occurred while creating the Customer.",
-  //       });
-  //     else res.send(data);
-  //   });
-  // }
+  async filter(req, res) {
+    try {
+      console.log(req.query);
+      const seletedDevice = req.query.selectedDevice ?? '';
+      const minT = Number(req.query.minT) ?? 0;
+      const result = await Device.filter(seletedDevice, minT);
+      res.json(result);
+    }
+    catch (err) {
+      res.status(500).send({
+        message: err.message || "Some error occurred while filter device."
+      });
+    }
+  }
+  async create(req, res) {
+    if (!req.body) {
+      return res.status(400).send({ message: "Content can not be empty!" });
+    }
+    const device = new Device({
+      room_type: req.body.room_type,
+      room_order: req.body.room_order,
+      slot_order: req.body.slot_order,
+      device_order: req.body.device_order,
+      name: req.body.name,
+      type: req.body.type,
+      start_date: req.body.start_date,
+      last_time_maintain: req.body.last_time_maintain,
+      expire_time: req.body.expire_time
+    });
+    try {
+      const result = await Device.create(device);
+      res.send(result);
+    }
+    catch (err) {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the Device.",
+      });
+    }
+    
+  }
 }
 
 export default new DeviceController();

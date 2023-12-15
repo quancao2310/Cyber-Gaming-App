@@ -1,135 +1,93 @@
 import connection from "../config/index.js";
 
+// constructor
 const Room = function (room) {
-  this.id = room.id;
+  this.room_type = room.room_type;
+  this.room_order = room.room_order;
   this.description = room.description;
-  this.name = room.name;
-  this.category = room.category;
-  this.price = room.price;
-  this.item_sold = room.item_sold;
-};
+  this.unit_price = room.unit_price;
+  this.available_slot_quantity = room.available_slot_quantity;
+  this.room_status = room.room_status;
+  this.rent_price = room.rent_price;
+}
 
 Room.create = async (newRoom) => {
-  const { description, name, category, price, item_sold } = newRoom;
+  try {
+    const result = await connection.query(
+      `INSERT INTO room (room_type, room_order, description, unit_price, available_slot_quantity, room_status, rent_price)
+      VALUES ?`, [newRoom.room_type, newRoom.room_order, newRoom.description, newRoom.unit_price, newRoom.available_slot_quantity, newRoom.room_status, newRoom.rent_price]
+    );
+    console.log("created room: ", { id: result.insertId, ...newRoom });
+    return result;
+  }
+  catch (err) {
+    console.log("error: ", err);
+    throw err;
+  }
+}
 
-  return await connection
-    .query(
-      "INSERT INTO Room SET description = ?, name = ?, category = ?, price = ?, item_sold = ?",
-      [description, name, category, price, item_sold]
-    )
-    .then((result) => {
-      const insertId = result[0].insertId;
-      newRoom.id = insertId;
-      return newRoom;
-    })
-    .catch((err) => {
-      console.log("error: ", err);
-      throw err;
-    });
-};
-
-Room.update = (RoomId, updatedRoom) => {
-  return connection
-    .query(
-      "UPDATE Room SET description = ?, name = ?, category = ?, price = ?, item_sold = ? WHERE id = ?",
+Room.update = async (roomId, updatedRoom) => {
+  try {
+    const result = await connection.query(
+      "UPDATE room SET description = ?, unit_price = ?, available_slot_quantity = ?, room_status = ?, rent_price = ? WHERE id = ?",
       [
         updatedRoom.description,
-        updatedRoom.name,
-        updatedRoom.category,
-        updatedRoom.price,
-        updatedRoom.item_sold,
-        RoomId,
+        updatedRoom.unit_price,
+        updatedRoom.available_slot_quantity,
+        updatedRoom.room_status,
+        updatedRoom.rent_price,
+        roomId,
       ]
-    )
-    .then((res) => {
-      if (res.affectedRows === 0) {
-        throw { kind: "update failed!" };
-      }
-      return updatedRoom;
-    })
-    .catch((err) => {
-      console.log("error: ", err);
-      throw err;
-    });
-};
+    );
+    console.log(result);
+    return result;
+  }
+  catch (err) {
+    throw err;
+  }
+}
 
-Room.delete = (RoomId) => {
-  return connection
-    .query("DELETE FROM Room WHERE id = ?", [RoomId])
-    .then((res) => {
-      if (res.affectedRows === 0) {
-        throw { kind: "not_found" };
-      }
-      console.log("deleted Room with id: ", RoomId);
-      return res;
-    })
-    .catch((err) => {
-      console.log("error: ", err);
-      throw err;
-    });
-};
+Room.findById = async (room_type, room_order) => {
+  try {
+    const result = await connection.query(
+      `SELECT * FROM room WHERE room_type=? AND room_order=?`,
+      [room_type, room_order]
+    );
+    
+    console.log("found room: ", result[0]);
+    return result[0];
+  }
+  catch (err) {
+    console.log("error: ", err);
+    throw err;
+  }
+}
 
-Room.find = (RoomId) => {
-  return connection
-    .query("SELECT * FROM Room WHERE id = ?", [RoomId])
-    .then(async (Rooms) => {
-      const RoomsWithImages = await Promise.all(
-        Rooms[0].map(async (Room) => {
-          const images = await connection.query(
-            "SELECT * FROM Room_image WHERE Room_id = ?",
-            [Room.id]
-          );
-          Room.images = images[0];
-          return Room;
-        })
-      );
-      return RoomsWithImages;
-    })
-    .catch((err) => {
-      console.log("error: ", err);
-      throw err;
-    });
-};
+Room.getAll = async () => {
+  try {
+    const result = await connection.query("SELECT * FROM room");
+    console.log("found rooms: ", result[0]);
+    return result[0];
+  }
+  catch (err) {
+    console.log("error: ", err);
+    throw err;
+  }
+}
 
-Room.getAll = () => {
-  return connection
-    .query("SELECT * FROM room")
-    .then((rooms) => {
-      return rooms[0];
-    })
-    .catch((err) => {
-      console.log("error: ", err);
-      throw err;
-    });
-};
-
-Room.getAllPrivateRoom = () => {
-  return connection
-    .query("SELECT * FROM room WHERE rent_price IS NOT NULL")
-    .then((rooms) => {
-      return rooms[0];
-    })
-    .catch((err) => {
-      console.log("error: ", err);
-      throw err;
-    });
-};
-
-Room.getAllPublicRoom = () => {
-  return connection
-    .query("SELECT * FROM room WHERE rent_price IS NULL")
-    .then(async (rooms) => {
-      const fullroom = rooms[0];    
-      for (let i = 0; i < fullroom.length; i++) {
-        const room = fullroom[i];
-        room.images = [];
-      }
-      
-    })
-    .catch((err) => {
-      console.log("error: ", err);
-      throw err;
-    });
-};
+Room.delete = async (room_type, room_order) => {
+  try {
+    const result = await connection.query(
+      `DELETE FROM room WHERE room_type=? AND room_order=?`,
+      [room_type, room_order]
+    );
+    console.log(result);
+    return result;
+  }
+  catch (err) {
+    console.log("error: ", err);
+    throw err;
+  }
+}
 
 export default Room;

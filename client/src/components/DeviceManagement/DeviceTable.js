@@ -1,7 +1,7 @@
 import axios from "axios";
 // import UpdateEventForm from "./UpdateForm";
 
-function DeviceTable({ data, trigger }) {
+function DeviceTable({ data, trigger, filtered }) {
   const [fetchTrigger, setFetchTrigger] = trigger;
   
   const handleDelete = async (room_type, room_order, slot_order, device_order) => {
@@ -24,10 +24,12 @@ function DeviceTable({ data, trigger }) {
           <th className="text-center col" scope="col">Slot</th>
           <th className="text-center col" scope="col">STT Thiết bị</th>
           <th className="text-center col" scope="col">Tên</th>
+          {!filtered && <th className="text-center col" scope="col">Loại</th>}
           <th className="text-center col" scope="col">Ngày bắt đầu sử dụng</th>
           <th className="text-center col" scope="col">Thời hạn bảo hành</th>
           <th className="text-center col" scope="col">Ngày bảo trì cuối</th>
-          <th className="text-center col" scope="col">Hành động</th>
+          {filtered && <th className="text-center col" scope="col">Tổng thời gian thuê kể từ ngày bảo trì cuối</th>}
+          {/* <th className="text-center col" scope="col">Hành động</th> */}
         </tr>
       </thead>
       <tbody id="file-status">
@@ -37,18 +39,20 @@ function DeviceTable({ data, trigger }) {
             <td className="text-center col">{item.slot_order}</td>
             <td className="text-center col">{item.device_order}</td>
             <td className="text-center col">{item.name}</td>
+            {!filtered && <td className="text-center col">{item.type}</td>}
             <td className="text-center col">{new Date(item.start_date).toLocaleDateString('en-GB')}</td>
             <td className="text-center col">{new Date(item.expire_time).toLocaleDateString('en-GB')}</td>
             <td className="text-center col">{new Date(item.last_time_maintain).toLocaleDateString('en-GB')}</td>
-            <td className="text-center col">
-              {/* <UpdateEventForm eventId={item.id} trigger={trigger} /> */}
+            {filtered && <td className="text-center col">{item['total_time (h)']}</td>}
+            {/* <td className="text-center col">
+              <UpdateEventForm eventId={item.id} trigger={trigger} />
               <button
                 className="btn btn-danger m-1"
                 onClick={() => handleDelete(item.room_type, item.room_order, item.slot_order, item.device_order)}
               >
                 Xóa
               </button>
-            </td>
+            </td> */}
           </tr>
         ))}
       </tbody>

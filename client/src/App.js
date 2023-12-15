@@ -19,6 +19,7 @@ import DiscountEvent from "./pages/admin/DiscountEventManagement";
 import { mockDataInvoices } from "./data/mockData";
 import ProductDetail from "./components/ProductManagement/ProductDetail";
 import 'react-toastify/dist/ReactToastify.css';import DeviceManagement from "./pages/admin/DeviceManagement";
+import Invoice from "./pages/admin/InvoiceManagement";
 
 function App() {
 
@@ -50,6 +51,7 @@ function App() {
           <Route path="/admin/product" element={<Product />} />
           <Route path="/admin/product/:productId" element={<ProductDetail />} />
           <Route path="/admin/transaction" element={<Transaction />} />
+          <Route path="/admin/invoice" element={<Invoice />} />
           <Route path="/admin/discount-event" element={<DiscountEvent />} />
           <Route path="/admin/device" element={<DeviceManagement />} />
 

@@ -13,18 +13,18 @@ const Device = function (device) {
   this.expire_time = device.expire_time;
 }
 
-Device.create = async (newDevice, result) => {
+Device.create = async (newDevice) => {
   try {
     const result = await connection.query(
       `INSERT INTO device (room_type, room_order, slot_order, device_order, name, type, start_date, last_time_maintain, expire_time)
       VALUES ?`, [newDevice.room_type, newDevice.room_order, newDevice.slot_order, newDevice.device_order, newDevice.name, newDevice.type, newDevice.start_date, newDevice.last_time_maintain, newDevice.expire_time]
     );
     console.log("created device: ", { id: result.insertId, ...newDevice });
-    result(null, { id: result.insertId, ...newDevice });
+    return { id: result.insertId, ...newDevice };
   }
   catch (err) {
     console.log("error: ", err);
-    result(err, null);
+    throw err;
   }
 }
 
@@ -67,6 +67,19 @@ Device.delete = async (room_type, room_order, slot_order, device_order) => {
   }
   catch (err) {
     console.log("error: ", err);
+    throw err;
+  }
+}
+
+Device.filter = async (seletedDevice, minT) => {
+  try {
+    const result = await connection.query(
+      'CALL device_rented_time(?, ?)',
+      [seletedDevice, minT]
+    );
+    return result[0][0];
+  }
+  catch (err) {
     throw err;
   }
 }
